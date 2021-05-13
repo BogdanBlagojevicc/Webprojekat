@@ -4,16 +4,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 
 enum Role {Admin, Trainer, User}
+
 @Entity
 @Getter
 @Setter
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,7 +41,7 @@ public class User {
     private Date birth;
 
     @Column
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column
@@ -52,7 +53,24 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Apply> applications;
 
+    //za trenera koje treninge drzi
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Training> trainings;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", birth=" + birth +
+                ", role=" + role +
+                ", active=" + active +
+                ", averageGrade=" + averageGrade +
+                '}';
+    }
 }

@@ -4,13 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
-enum Type{Hit, Cardio, TRX, Combat, Box, Gym}
+enum Type {Hit, Cardio, TRX, Combat, Box, Gym}
+
 @Entity
 @Getter
 @Setter
-public class Training {
+public class Training implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,7 +24,7 @@ public class Training {
     private String description;
 
     @Column
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     @Column
@@ -32,5 +34,18 @@ public class Training {
     private List<Term> terms;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private User user;
+    private User trainer;
+
+    @Override
+    public String toString() {
+        return "Training{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", type=" + type +
+                ", duration=" + duration +
+                ", trainer=" + trainer +
+                '}';
+    }
+
 }
