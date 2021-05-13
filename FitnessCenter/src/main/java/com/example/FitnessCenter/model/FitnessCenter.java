@@ -4,12 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-public class FitnessCenter {
+public class FitnessCenter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,15 +28,19 @@ public class FitnessCenter {
     private String email;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<User> workers;
+    private List<User> users;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Hall> halls;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Term> schedule_price_training;
-
-
-
-
+    @Override
+    public String toString() {
+        return "FitnessCenter{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
