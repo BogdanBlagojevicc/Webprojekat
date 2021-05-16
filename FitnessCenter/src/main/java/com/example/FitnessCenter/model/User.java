@@ -50,12 +50,12 @@ public class User implements Serializable {
     @Column
     private Double averageGrade;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    List<Apply> applications;
+    @OneToMany(mappedBy = "sports_man", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Apply> applications;
 
     //za trenera koje treninge drzi
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    List<Training> trainings;
+    @OneToMany(mappedBy = "trainer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Training> trainings;
 
     @Override
     public String toString() {

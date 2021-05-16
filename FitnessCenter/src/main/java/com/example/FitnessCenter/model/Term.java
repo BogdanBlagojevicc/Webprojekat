@@ -22,7 +22,10 @@ public class Term implements Serializable {
     @Column
     private Date start;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Column
+    private Integer number_of_applications;
+
+    @OneToMany(mappedBy = "term", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Apply> term_apply;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -34,15 +37,13 @@ public class Term implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private User trainer;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<User> sports_man;
-
     @Override
     public String toString() {
         return "Term{" +
                 "id=" + id +
                 ", price=" + price +
                 ", start=" + start +
+                ", number_of_applications=" + number_of_applications +
                 ", hall=" + hall +
                 ", training=" + training +
                 ", trainer=" + trainer +

@@ -30,7 +30,7 @@ public class Training implements Serializable {
     @Column
     private Double duration;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "training", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Term> terms;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
