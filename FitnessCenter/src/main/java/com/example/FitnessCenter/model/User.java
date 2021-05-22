@@ -42,7 +42,7 @@ public class User implements Serializable {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private com.example.FitnessCenter.model.dto.Role role;
 
     @Column
     private Boolean active;
@@ -56,6 +56,25 @@ public class User implements Serializable {
     //za trenera koje treninge drzi
     @OneToMany(mappedBy = "trainer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Training> trainings;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private FitnessCenter fitnessCenter;
+
+    public User() {
+    }
+
+    public User(String username, String password, String firstName, String lastName, String phoneNumber, String email, Date birth, com.example.FitnessCenter.model.dto.Role role, Boolean active, Double averageGrade) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.birth = birth;
+        this.role = role;
+        this.active = active;
+        this.averageGrade = averageGrade;
+    }
 
     @Override
     public String toString() {
@@ -71,6 +90,7 @@ public class User implements Serializable {
                 ", role=" + role +
                 ", active=" + active +
                 ", averageGrade=" + averageGrade +
+                ", fitnessCenter=" + fitnessCenter +
                 '}';
     }
 }
