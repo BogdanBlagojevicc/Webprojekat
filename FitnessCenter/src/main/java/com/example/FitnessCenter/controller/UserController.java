@@ -4,9 +4,6 @@ import com.example.FitnessCenter.model.User;
 import com.example.FitnessCenter.model.dto.Role;
 import com.example.FitnessCenter.model.dto.UserDTO;
 import com.example.FitnessCenter.service.UserService;
-import lombok.val;
-import lombok.var;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,12 +24,12 @@ public class UserController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) throws Exception{
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) throws Exception {
 //        Date date = new Date(userDTO.getBirth());
 
         Role role = Role.valueOf(userDTO.getRole());
         Boolean isActive = true;
-        if(role.equals(Role.Trainer)) {
+        if (role.equals(Role.Trainer)) {
             isActive = false;
         }
 
@@ -49,7 +46,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         this.userService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

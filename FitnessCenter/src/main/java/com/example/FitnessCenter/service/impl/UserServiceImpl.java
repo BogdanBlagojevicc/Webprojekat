@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     //napisao
     @Override
     public User create(User user) throws Exception {
-        if(user.getId() != null){
+        if (user.getId() != null) {
             throw new Exception("id must be null");
         }
         User newUser = this.userRepository.save(user);

@@ -33,6 +33,16 @@ public class FitnessCenter implements Serializable {
     @OneToMany(mappedBy = "fitnessCenter", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Hall> halls;
 
+    public FitnessCenter() {
+    }
+
+    public FitnessCenter(String name, String address, String phoneNumber, String email) {
+        this.name = name;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "FitnessCenter{" +
