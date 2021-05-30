@@ -3,7 +3,7 @@ VALUES ('Novosadskog sajma 1', 'evelate123@gmail.com', 'Evelate', '021258634');
 
 INSERT INTO USER (ACTIVE, AVERAGE_GRADE, BIRTH, EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, PHONE_NUMBER, ROLE, USERNAME,
                   FITNESS_CENTER_ID)
-VALUES (TRUE, 9.45, '2000-03-7', 'blagojevicbodan1@gmail.com', 'Bogdan', 'Blagojevic', 'ftn1', '0656549224', 'Trainer',
+VALUES (TRUE, 9.45, '2000-07-03', 'blagojevicbodan1@gmail.com', 'Bogdan', 'Blagojevic', 'ftn1', '0656549224', 'Trainer',
         'bogdan123', 1);
 INSERT INTO USER (ACTIVE, AVERAGE_GRADE, BIRTH, EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, PHONE_NUMBER, ROLE, USERNAME,
                   FITNESS_CENTER_ID)
