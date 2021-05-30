@@ -10,7 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @RestController
 @RequestMapping(value = "/api/users")
@@ -25,7 +27,10 @@ public class UserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) throws Exception {
-//        Date date = new Date(userDTO.getBirth());
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+
+        String dateInString = userDTO.getBirth();
+        Date dateBirth = formatter.parse(dateInString);
 
         Role role = Role.valueOf(userDTO.getRole());
         Boolean isActive = true;
@@ -34,7 +39,7 @@ public class UserController {
         }
 
         User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName()
-                , userDTO.getPhoneNumber(), userDTO.getEmail(), new Date(), role, isActive, userDTO.getAverageGrade());
+                , userDTO.getPhoneNumber(), userDTO.getEmail(), dateBirth, role, isActive, userDTO.getAverageGrade());
 
         User newUser = userService.create(user);
 
