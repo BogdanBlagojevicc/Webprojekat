@@ -25,7 +25,7 @@ public class Training implements Serializable {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private com.example.FitnessCenter.model.dto.Type type;
 
     @Column
     private Double duration;

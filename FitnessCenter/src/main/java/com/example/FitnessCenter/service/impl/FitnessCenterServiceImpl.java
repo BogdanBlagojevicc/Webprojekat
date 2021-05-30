@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class FitnessCenterImpl implements FitnessCenterService {
+public class FitnessCenterServiceImpl implements FitnessCenterService {
 
     private final FitnessCenterRepository fitnessCenterRepository;
 
     @Autowired
-    public FitnessCenterImpl(FitnessCenterRepository fitnessCenterRepository) {
+    public FitnessCenterServiceImpl(FitnessCenterRepository fitnessCenterRepository) {
         this.fitnessCenterRepository = fitnessCenterRepository;
     }
 
