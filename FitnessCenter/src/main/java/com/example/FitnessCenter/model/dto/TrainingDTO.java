@@ -23,4 +23,5 @@ public class TrainingDTO {
         this.type = type;
         this.duration = duration;
     }
+
 }

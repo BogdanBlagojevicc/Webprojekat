@@ -1,6 +1,7 @@
 package com.example.FitnessCenter.service;
 
 import com.example.FitnessCenter.model.Training;
+import com.example.FitnessCenter.model.dto.Type;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public interface TrainingService {
 
     List<Training> findAllName(String name);
 
+    List<Training> findAllType(Type type);    //menjam
 
     List<Training> findAllDescription(String description);
 }

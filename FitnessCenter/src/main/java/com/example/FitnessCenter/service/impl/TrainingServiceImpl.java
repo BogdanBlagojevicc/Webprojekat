@@ -1,6 +1,7 @@
 package com.example.FitnessCenter.service.impl;
 
 import com.example.FitnessCenter.model.Training;
+import com.example.FitnessCenter.model.dto.Type;
 import com.example.FitnessCenter.repository.TrainingRepository;
 import com.example.FitnessCenter.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,11 @@ public class TrainingServiceImpl implements TrainingService {
         return trainings;
     }
 
+    @Override
+    public List<Training> findAllType(Type type) {    //menjam
+        List<Training> trainings = this.trainingRepository.findAllByType(type);
+        return trainings;
+    }
 
     @Override
     public List<Training> findAllDescription(String description) {
