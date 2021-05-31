@@ -43,19 +43,19 @@ public class TrainingController {
     }
 
     @GetMapping(value = "/description/{description}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TrainingDTO>> getTrainingDescription(@PathVariable String description){
+    public ResponseEntity<List<TrainingDTO>> getTrainingDescription(@PathVariable String description) {
 
         List<Training> trainingList = this.trainingService.findAllDescription(description);
 
         List<TrainingDTO> trainingDTOS = new ArrayList<>();
 
-        for(Training training : trainingList){
+        for (Training training : trainingList) {
             TrainingDTO trainingDTO = new TrainingDTO(training.getId(), training.getName(), training.getDescription()
-            , training.getType().toString(), training.getDuration());
+                    , training.getType().toString(), training.getDuration());
             trainingDTOS.add(trainingDTO);
         }
         return new ResponseEntity<>(trainingDTOS, HttpStatus.OK);
     }
 
-
+ 
 }

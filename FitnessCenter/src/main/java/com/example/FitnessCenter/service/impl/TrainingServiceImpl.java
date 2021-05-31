@@ -53,9 +53,8 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
 
-
     @Override
-    public List<Training> findAllDescription(String description){
+    public List<Training> findAllDescription(String description) {
         List<Training> trainings = this.trainingRepository.findAllByDescription(description);
         return trainings;
     }

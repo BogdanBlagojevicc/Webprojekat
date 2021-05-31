@@ -26,6 +26,14 @@ public class Apply implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Term term;
 
+    public Apply() {
+    }
+
+    public Apply(Integer grade, Boolean done) {
+        this.grade = grade;
+        this.done = done;
+    }
+
     @Override
     public String toString() {
         return "Apply{" +

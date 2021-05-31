@@ -10,6 +10,5 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
     List<Training> findAllByName(String name);
 
 
-
     List<Training> findAllByDescription(String description);
 }

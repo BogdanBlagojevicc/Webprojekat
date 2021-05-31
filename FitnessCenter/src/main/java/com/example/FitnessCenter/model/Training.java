@@ -36,6 +36,16 @@ public class Training implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private User trainer;
 
+    public Training() {
+    }
+
+    public Training(String name, String description, com.example.FitnessCenter.model.dto.Type type, Double duration) {
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.duration = duration;
+    }
+
     @Override
     public String toString() {
         return "Training{" +

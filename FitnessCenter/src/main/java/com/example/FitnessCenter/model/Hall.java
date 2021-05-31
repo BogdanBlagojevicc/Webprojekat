@@ -27,6 +27,14 @@ public class Hall implements Serializable {
     @OneToMany(mappedBy = "hall", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Term> week_schedule;
 
+    public Hall() {
+    }
+
+    public Hall(Integer capacity, String mark) {
+        this.capacity = capacity;
+        this.mark = mark;
+    }
+
     @Override
     public String toString() {
         return "Hall{" +

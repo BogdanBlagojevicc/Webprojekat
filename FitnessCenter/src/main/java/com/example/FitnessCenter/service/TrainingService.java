@@ -19,6 +19,5 @@ public interface TrainingService {
     List<Training> findAllName(String name);
 
 
-
     List<Training> findAllDescription(String description);
 }

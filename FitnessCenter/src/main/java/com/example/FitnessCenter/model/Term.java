@@ -37,6 +37,15 @@ public class Term implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private User trainer;
 
+    public Term() {
+    }
+
+    public Term(Double price, Date start, Integer number_of_applications) {
+        this.price = price;
+        this.start = start;
+        this.number_of_applications = number_of_applications;
+    }
+
     @Override
     public String toString() {
         return "Term{" +
