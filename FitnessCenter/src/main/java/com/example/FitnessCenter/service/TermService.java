@@ -19,5 +19,5 @@ public interface TermService {
 
     List<Term> findAllPrice(Double price);
 
-
+    List<Term> findAllDate(Date date);
 }

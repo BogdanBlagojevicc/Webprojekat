@@ -10,5 +10,5 @@ public interface TermRepository extends JpaRepository<Term, Long> {
 
     List<Term> findAllByPrice(Double price);
 
-
+    List<Term> findAllByStart(Date date);
 }

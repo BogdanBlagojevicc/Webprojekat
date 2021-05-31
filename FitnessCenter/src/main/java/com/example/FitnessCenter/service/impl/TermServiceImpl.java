@@ -20,8 +20,14 @@ public class TermServiceImpl implements TermService {
     }
 
     @Override
-    public List<Term> findAllPrice(Double price){
+    public List<Term> findAllPrice(Double price) {
         List<Term> terms = this.termRepository.findAllByPrice(price);
+        return terms;
+    }
+
+    @Override
+    public List<Term> findAllDate(Date date) {
+        List<Term> terms = this.termRepository.findAllByStart(date);
         return terms;
     }
 

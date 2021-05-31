@@ -3,15 +3,13 @@ package com.example.FitnessCenter.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 public class TermDTO {
 
     private Long id;
     private Double price;
-    private String  start;
+    private String start;
     private Integer number_of_applications;
 
     public TermDTO() {
