@@ -54,7 +54,7 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public List<Training> findAllType(Type type) {    //menjam
+    public List<Training> findAllType(Type type) {
         List<Training> trainings = this.trainingRepository.findAllByType(type);
         return trainings;
     }

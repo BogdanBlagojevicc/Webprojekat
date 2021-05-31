@@ -20,6 +20,7 @@ public class Term implements Serializable {
     private Double price;
 
     @Column
+    @Temporal(TemporalType.TIMESTAMP)
     private Date start;
 
     @Column

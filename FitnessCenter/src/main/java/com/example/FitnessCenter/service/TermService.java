@@ -2,6 +2,7 @@ package com.example.FitnessCenter.service;
 
 import com.example.FitnessCenter.model.Term;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TermService {
@@ -16,5 +17,7 @@ public interface TermService {
 
     void delete(Long id);
 
-    List<Term> findAllPrice(double price);
+    List<Term> findAllPrice(Double price);
+
+
 }

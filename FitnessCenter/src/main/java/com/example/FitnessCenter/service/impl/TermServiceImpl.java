@@ -6,6 +6,7 @@ import com.example.FitnessCenter.service.TermService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,7 +20,7 @@ public class TermServiceImpl implements TermService {
     }
 
     @Override
-    public List<Term> findAllPrice(double price){
+    public List<Term> findAllPrice(Double price){
         List<Term> terms = this.termRepository.findAllByPrice(price);
         return terms;
     }

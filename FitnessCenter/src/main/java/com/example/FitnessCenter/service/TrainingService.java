@@ -19,7 +19,7 @@ public interface TrainingService {
 
     List<Training> findAllName(String name);
 
-    List<Training> findAllType(Type type);    //menjam
+    List<Training> findAllType(Type type);
 
     List<Training> findAllDescription(String description);
 }

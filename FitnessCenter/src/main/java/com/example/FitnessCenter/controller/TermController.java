@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,7 @@ public class TermController {
     }
 
     @GetMapping(value = "/price/{price}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TermDTO>> getTerms(@PathVariable Double price){
+    public ResponseEntity<List<TermDTO>> getTermsPrice(@PathVariable Double price){
 
         List<Term> termList = this.termService.findAllPrice(price);
 
@@ -40,6 +41,5 @@ public class TermController {
         }
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
-
 
 }

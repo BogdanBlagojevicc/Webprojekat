@@ -10,7 +10,8 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
 
     List<Training> findAllByName(String name);
 
-    List<Training> findAllByType(Type type);      //menjam
+    List<Training> findAllByType(Type type);
 
     List<Training> findAllByDescription(String description);
+
 }
