@@ -26,8 +26,8 @@ public class TrainingController {
         this.trainingService = trainingService;
     }
 
-    @GetMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TrainingDTO>> getTraining(@PathVariable String name) {
+    @GetMapping(value = "/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TrainingDTO>> getTrainingName(@PathVariable String name) {
 
         List<Training> trainingList = this.trainingService.findAllName(name);
 
@@ -41,4 +41,21 @@ public class TrainingController {
 
         return new ResponseEntity<>(trainingDTOS, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/description/{description}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TrainingDTO>> getTrainingDescription(@PathVariable String description){
+
+        List<Training> trainingList = this.trainingService.findAllDescription(description);
+
+        List<TrainingDTO> trainingDTOS = new ArrayList<>();
+
+        for(Training training : trainingList){
+            TrainingDTO trainingDTO = new TrainingDTO(training.getId(), training.getName(), training.getDescription()
+            , training.getType().toString(), training.getDuration());
+            trainingDTOS.add(trainingDTO);
+        }
+        return new ResponseEntity<>(trainingDTOS, HttpStatus.OK);
+    }
+
+
 }

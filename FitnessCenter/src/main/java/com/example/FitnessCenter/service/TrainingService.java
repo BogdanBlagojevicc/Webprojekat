@@ -17,4 +17,8 @@ public interface TrainingService {
     void delete(Long id);
 
     List<Training> findAllName(String name);
+
+
+
+    List<Training> findAllDescription(String description);
 }
