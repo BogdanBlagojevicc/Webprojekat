@@ -24,4 +24,8 @@ public interface TermService {
     List<Term> sortPriceAsc();
 
     List<Term> sortPriceDesc();
+
+    List<Term> sortDateAsc();
+
+    List<Term> sortDateDesc();
 }

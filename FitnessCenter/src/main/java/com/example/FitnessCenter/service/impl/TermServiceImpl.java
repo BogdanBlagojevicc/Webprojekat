@@ -44,6 +44,18 @@ public class TermServiceImpl implements TermService {
     }
 
     @Override
+    public List<Term> sortDateAsc(){
+        List<Term> terms = this.termRepository.findByOrderByStartAsc();
+        return terms;
+    }
+
+    @Override
+    public List<Term> sortDateDesc(){
+        List<Term> terms = this.termRepository.findByOrderByStartDesc();
+        return terms;
+    }
+
+    @Override
     public Term findOne(Long id) {
         return null;
     }

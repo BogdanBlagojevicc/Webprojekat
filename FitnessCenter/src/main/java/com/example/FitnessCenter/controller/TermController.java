@@ -65,7 +65,7 @@ public class TermController {
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/sortAsc", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/sortPriceAsc", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TermDTO>> getTermsSortAsc() {
 
         List<Term> termList = this.termService.sortPriceAsc();
@@ -81,10 +81,42 @@ public class TermController {
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/sortDesc", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/sortPriceDesc", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TermDTO>> getTermsSortDesc() {
 
         List<Term> termList = this.termService.sortPriceDesc();
+
+        List<TermDTO> termDTOS = new ArrayList<>();
+
+        for (Term term : termList) {
+            TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
+                    , term.getNumber_of_applications());
+            termDTOS.add(termDTO);
+        }
+
+        return new ResponseEntity<>(termDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/sortDateAsc", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TermDTO>> getTermsSortDateAsc() {
+
+        List<Term> termList = this.termService.sortDateAsc();
+
+        List<TermDTO> termDTOS = new ArrayList<>();
+
+        for (Term term : termList) {
+            TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
+                    , term.getNumber_of_applications());
+            termDTOS.add(termDTO);
+        }
+
+        return new ResponseEntity<>(termDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/sortDateDesc", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TermDTO>> getTermsSortDateDesc() {
+
+        List<Term> termList = this.termService.sortDateDesc();
 
         List<TermDTO> termDTOS = new ArrayList<>();
 
