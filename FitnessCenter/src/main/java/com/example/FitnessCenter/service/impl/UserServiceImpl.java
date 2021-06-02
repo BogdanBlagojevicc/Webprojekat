@@ -34,13 +34,15 @@ public class UserServiceImpl implements UserService {
         this.userRepository.deleteById(id);
     }
 
+    //napisao
     @Override
-    public User findOne(Long id) {
-        return null;
+    public List<User> findAll() {
+        List<User> users = this.userRepository.findAll();
+        return users;
     }
 
     @Override
-    public List<User> findAll() {
+    public User findOne(Long id) {
         return null;
     }
 

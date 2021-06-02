@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @RestController
@@ -49,6 +51,26 @@ public class UserController {
 
         return new ResponseEntity<>(newUserDTO, HttpStatus.CREATED);
     }
+
+    @GetMapping(value = "/trainersApplyForRegistration", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UserDTO>> getApplyForRegistration() {
+
+        List<User> userList = this.userService.findAll();
+
+        List<UserDTO> userDTOS = new ArrayList<>();
+
+        for (User user : userList) {
+            UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getPassword(), user.getFirstName()
+                    , user.getLastName(), user.getPhoneNumber(), user.getEmail(), user.getBirth().toString()
+                    , user.getRole().toString(), user.getActive(), user.getAverageGrade());
+            if (user.getRole() == Role.Trainer && user.getActive() == false) {
+                userDTOS.add(userDTO);
+            }
+        }
+
+        return new ResponseEntity<>(userDTOS, HttpStatus.OK);
+    }
+
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
