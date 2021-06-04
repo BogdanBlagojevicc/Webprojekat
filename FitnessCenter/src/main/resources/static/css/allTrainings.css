@@ -4,14 +4,12 @@ body {
     font-family: 'Open Sans', sans-serif;
     background: #4761a3;
 }
-
 h1{
     color: #fff;
     text-shadow: 0 0 10px rgba(0,0,0,0.3);
     letter-spacing:1px;
     text-align:center;
 }
-
 .login {
     position: absolute;
     top: 40%;
@@ -21,7 +19,11 @@ h1{
     height:300px;
 }
 
-#trainings th {
+tbody{
+    background: #fff;
+}
+
+#training th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -29,15 +31,16 @@ h1{
     color: white;
 }
 
-#trainings td, #trainings th {
+#training td, #training th {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-#trainings tr:nth-child(even) {
+#training tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-#trainings tr:hover {
+#training tr:hover {
     background-color: #ddd;
 }
+
