@@ -10,6 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:63342")
 @RestController
 @RequestMapping(value = "/api/fitnessCenters")
@@ -39,5 +42,20 @@ public class FitnessCenterController {
     public ResponseEntity<Void> deleteFitnessCenter(@PathVariable Long id) {
         this.fitnessCenterService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<FitnessCenterDTO>> getFitnessCenters() {
+        List<FitnessCenter> fitnessCenterList = this.fitnessCenterService.findAll();
+
+        List<FitnessCenterDTO> fitnessCenterDTOS = new ArrayList<>();
+
+        for (FitnessCenter fitnessCenter : fitnessCenterList) {
+            FitnessCenterDTO fitnessCenterDTO = new FitnessCenterDTO(fitnessCenter.getId(), fitnessCenter.getName()
+                    , fitnessCenter.getAddress(), fitnessCenter.getPhoneNumber(), fitnessCenter.getEmail());
+            fitnessCenterDTOS.add(fitnessCenterDTO);
+        }
+
+        return new ResponseEntity<>(fitnessCenterDTOS, HttpStatus.OK);
     }
 }

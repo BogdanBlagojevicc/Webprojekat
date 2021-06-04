@@ -35,13 +35,15 @@ public class FitnessCenterServiceImpl implements FitnessCenterService {
         this.fitnessCenterRepository.deleteById(id);
     }
 
+    //napisao
     @Override
-    public FitnessCenter findOne(Long id) {
-        return null;
+    public List<FitnessCenter> findAll() {
+        List<FitnessCenter> fitnessCenters = this.fitnessCenterRepository.findAll();
+        return  fitnessCenters;
     }
 
     @Override
-    public List<FitnessCenter> findAll() {
+    public FitnessCenter findOne(Long id) {
         return null;
     }
 
