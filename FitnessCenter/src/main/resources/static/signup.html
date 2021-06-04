@@ -5,23 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign up</title>
-
     <link rel="stylesheet" href="css/signup.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/signup.js"></script>
 </head>
 <body>
-    <div class="login">
-        <h1>Sign up</h1>
-          <form method="post">
-            <input type="text" name="u" placeholder="Name" required="required" />
-            <input type="text" name="u" placeholder="Last name" required="required" />
-            <input type="text" name="u" placeholder="Username" required="required" />
-            <input type="email" name="u" placeholder="Email" required="required" />
-            <input type="password" name="p" placeholder="Password" required="required" />
-            <input type="date" name="u" placeholder="Date" required="required" />
-            <input type="tel" name="u" placeholder="Phone number" required="required" />
-            <button type="submit" >Sign up</button>
-          </form>
-      </div>
+<div class="login">
+    <h1>Sign up</h1>
+    <form method="post" id="addUser">
+        <label for="firstName"></label>
+        <input id="firstName" type="text" name="u" placeholder="Name" required="required"/>
+
+        <label for="lastName"></label>
+        <input id="lastName" type="text" name="u" placeholder="Last name" required="required"/>
+
+        <label for="username"></label>
+        <input id="username" type="text" name="u" placeholder="Username" required="required"/>
+
+        <label for="email"></label>
+        <input id="email" type="email" name="u" placeholder="Email" required="required"/>
+
+        <label for="password"></label>
+        <input id="password" type="password" name="p" placeholder="Password" required="required"/>
+
+        <label for="birth"></label>
+        <input id="birth" type="date" name="u" placeholder="Date" required="required"/>
+
+        <label for="phoneNumber"></label>
+        <input id="phoneNumber" type="tel" name="u" placeholder="Phone number" required="required"/>
+
+        <button type="submit" value="Add">Sign up</button>
+    </form>
+</div>
 </body>
 
 </html>
