@@ -1,5 +1,6 @@
 package com.example.FitnessCenter.model.dto;
 
+import com.example.FitnessCenter.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,5 +35,19 @@ public class UserDTO {
         this.role = role;
         this.active = active;
         this.averageGrade = averageGrade;
+    }
+
+    public UserDTO(User trainer) {
+        this.id = trainer.getId();
+        this.username = trainer.getUsername();
+        this.password = trainer.getPassword();
+        this.firstName = trainer.getFirstName();
+        this.lastName = trainer.getLastName();
+        this.phoneNumber = trainer.getPhoneNumber();
+        this.email = trainer.getEmail();
+        this.birth = trainer.getBirth().toString();
+        this.role = trainer.getRole().toString();
+        this.active = trainer.getActive();
+        this.averageGrade = trainer.getAverageGrade();
     }
 }
