@@ -27,4 +27,13 @@ public class TrainingDTO {
         this.trainer = trainer;
     }
 
+    public TrainingDTO(Long id, String name, String description, String type, Double duration) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.duration = duration;
+        this.trainer = trainer;
+    }
+
 }

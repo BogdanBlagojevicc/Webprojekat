@@ -12,7 +12,7 @@ $(document).ready(function () {
                 row += "<td>" + training.duration + "</td>";
                 row += "<td>" + training.name + "</td>";
                 row += "<td>" + training.type + "</td>";
-                // row += "<td>" + training.trainer + "</td>";
+                row += "<td>" + training.trainer.firstName + "</td>";
                 row += "</tr>";
 
                 $('#training').append(row);

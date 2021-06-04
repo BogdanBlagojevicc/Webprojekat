@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 public interface TermRepository extends JpaRepository<Term, Long> {
 
-    List<Term> findAllByPrice(Double price);
+    List<Term> findByPriceLessThanEqual(Double price);
 
-    List<Term> findAllByStart(Date date);
+    List<Term> findByStartLessThanEqual(Date date);
 
     List<Term> findByOrderByPriceAsc();
 

@@ -1,7 +1,13 @@
 package com.example.FitnessCenter.controller;
 
+import com.example.FitnessCenter.model.Hall;
 import com.example.FitnessCenter.model.Term;
+import com.example.FitnessCenter.model.Training;
+import com.example.FitnessCenter.model.User;
+import com.example.FitnessCenter.model.dto.HallDTO;
 import com.example.FitnessCenter.model.dto.TermDTO;
+import com.example.FitnessCenter.model.dto.TrainingDTO;
+import com.example.FitnessCenter.model.dto.UserDTO;
 import com.example.FitnessCenter.service.TermService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +33,7 @@ public class TermController {
         this.termService = termService;
     }
 
-    @GetMapping(value = "/price/{price}", produces = MediaType.APPLICATION_JSON_VALUE)
+/*    @GetMapping(value = "/price/{price}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TermDTO>> getTermsPrice(@PathVariable Double price) {
 
         List<Term> termList = this.termService.findAllPrice(price);
@@ -127,6 +133,28 @@ public class TermController {
             termDTOS.add(termDTO);
         }
 
+        return new ResponseEntity<>(termDTOS, HttpStatus.OK);
+    }
+*/
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TermDTO>> getTerms() {
+
+        List<Term> termList = this.termService.findAll();
+
+        List<TermDTO> termDTOS = new ArrayList<>();
+
+        for (Term term : termList) {
+            Hall mark = term.getHall();
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            User trainer = term.getTrainer();
+            UserDTO trainerDTO = new UserDTO(trainer);
+            Training training = term.getTraining();
+            TrainingDTO typeDTO = new TrainingDTO(training.getId(), training.getName(), training.getDescription()
+                    , training.getType().toString(), training.getDuration());
+            TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
+                    , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
+            termDTOS.add(termDTO);
+        }
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
 

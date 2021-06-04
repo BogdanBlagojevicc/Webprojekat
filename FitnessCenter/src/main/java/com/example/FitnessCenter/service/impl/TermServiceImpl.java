@@ -21,13 +21,13 @@ public class TermServiceImpl implements TermService {
 
     @Override
     public List<Term> findAllPrice(Double price) {
-        List<Term> terms = this.termRepository.findAllByPrice(price);
+        List<Term> terms = this.termRepository.findByPriceLessThanEqual(price);
         return terms;
     }
 
     @Override
     public List<Term> findAllDate(Date date) {
-        List<Term> terms = this.termRepository.findAllByStart(date);
+        List<Term> terms = this.termRepository.findByStartLessThanEqual(date);
         return terms;
     }
 
@@ -56,12 +56,13 @@ public class TermServiceImpl implements TermService {
     }
 
     @Override
-    public Term findOne(Long id) {
-        return null;
+    public List<Term> findAll() {
+        List<Term> terms = this.termRepository.findAll();
+        return terms;
     }
 
     @Override
-    public List<Term> findAll() {
+    public Term findOne(Long id) {
         return null;
     }
 
