@@ -13,7 +13,7 @@ h1{
 .login {
     position: absolute;
     top: 40%;
-    left: 49%;
+    left: 30%;
     margin: -150px 0 0 -150px;
     width:300px;
     height:300px;
@@ -23,7 +23,7 @@ tbody{
     background: #fff;
 }
 
-#requests2 th {
+#requests th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -31,16 +31,16 @@ tbody{
     color: white;
 }
 
-#requests2 td, #requests2 th {
+#requests td, #requests th {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-#requests2 tr:nth-child(even) {
+#requests tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-#requests2 tr:hover {
+#requests tr:hover {
     background-color: #ddd;
 }
 

@@ -2,7 +2,6 @@ package com.example.FitnessCenter.controller;
 
 import com.example.FitnessCenter.model.Training;
 import com.example.FitnessCenter.model.User;
-import com.example.FitnessCenter.model.dto.Role;
 import com.example.FitnessCenter.model.dto.TrainingDTO;
 import com.example.FitnessCenter.model.dto.Type;
 import com.example.FitnessCenter.model.dto.UserDTO;

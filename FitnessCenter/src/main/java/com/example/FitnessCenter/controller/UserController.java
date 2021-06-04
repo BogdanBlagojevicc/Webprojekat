@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+@CrossOrigin(origins = "http://localhost:63342")
 @RestController
 @RequestMapping(value = "/api/users")
 public class UserController {
