@@ -1,4 +1,4 @@
-$(document).on("submit", "#addUser", function (event) {
+$(document).on("submit", "#addTrainer", function (event) {
     event.preventDefault();
 
     let firstName = $("#firstName").val();
@@ -8,12 +8,12 @@ $(document).on("submit", "#addUser", function (event) {
     let password = $("#password").val();
     let birth = $("#birth").val();
     let phoneNumber = $("#phoneNumber").val();
-    let active = true;
-    let role = "User";
+    let active = false;
+    let role = "Trainer";
     let averageGrade = 0;
 
 
-    let newUser = {
+    let newTrainer = {
         firstName,
         lastName,
         username,
@@ -31,7 +31,7 @@ $(document).on("submit", "#addUser", function (event) {
         url: "http://localhost:8080/api/users",
         dataType: "json",
         contentType: "application/json",
-        data: JSON.stringify(newUser),
+        data: JSON.stringify(newTrainer),
         success: function (response) {
             console.log(response);
 
