@@ -35,7 +35,7 @@ $(document).on("submit", "#addUser", function (event) {
         success: function (response) {
             console.log(response);
 
-            alert("Radnik " + response.id + " je uspešno kreiran!");
+            alert("Clan je uspešno kreiran!");
             window.location.href = "login.html";
         },
         error: function () {

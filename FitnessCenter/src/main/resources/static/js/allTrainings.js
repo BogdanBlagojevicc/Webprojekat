@@ -12,10 +12,7 @@ $(document).ready(function () {
                 row += "<td>" + training.duration + "</td>";
                 row += "<td>" + training.name + "</td>";
                 row += "<td>" + training.type + "</td>";
-                let btn = "<button class='btnSeeMore' data-id=" + training.id + ">See More</button>";
-                row += "<td>" + btn + "</td>";
-                btn = "<button class='btnDelete' data-id=" + training.id + ">Delete</button>";
-                row += "<td>" + btn + "</td>";
+                // row += "<td>" + training.trainer + "</td>";
                 row += "</tr>";
 
                 $('#training').append(row);
