@@ -41,10 +41,19 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
+    //napisao
     @Override
     public User findOne(Long id) {
-        return null;
+        User user = this.userRepository.getOne(id);
+        return user;
     }
+
+    //napisao
+    public User findOneUsernameAndPassword(String username, String password){
+        User user = this.userRepository.findByUsernameAndPassword(username, password);
+        return user;
+    }
+
 
     @Override
     public User update(User user) throws Exception {

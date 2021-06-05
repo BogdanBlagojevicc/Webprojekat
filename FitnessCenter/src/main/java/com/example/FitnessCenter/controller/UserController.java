@@ -72,6 +72,34 @@ public class UserController {
         return new ResponseEntity<>(userDTOS, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Long> getUser(@PathVariable String username, @PathVariable String password) {
+
+        User user = this.userService.findOneUsernameAndPassword(username, password);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (user.getActive().equals(false)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPhoneNumber(user.getPhoneNumber());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setBirth(user.getBirth().toString());
+        userDTO.setRole(user.getRole().toString());
+        userDTO.setActive(user.getActive());
+        userDTO.setAverageGrade(user.getAverageGrade());
+
+        return new ResponseEntity<>(userDTO.getId(), HttpStatus.OK);
+
+    }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {

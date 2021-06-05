@@ -8,6 +8,8 @@ public interface UserService {
 
     User findOne(Long id);
 
+    User findOneUsernameAndPassword(String username, String password);
+
     List<User> findAll();
 
     User create(User user) throws Exception;
