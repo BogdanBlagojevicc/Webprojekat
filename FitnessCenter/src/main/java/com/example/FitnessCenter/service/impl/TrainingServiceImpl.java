@@ -49,19 +49,19 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public List<Training> findAllName(String name) {
-        List<Training> trainings = this.trainingRepository.findAllByName(name);
+        List<Training> trainings = this.trainingRepository.findByNameContainingIgnoreCase(name);
         return trainings;
     }
 
     @Override
     public List<Training> findAllType(Type type) {
-        List<Training> trainings = this.trainingRepository.findAllByType(type);
+        List<Training> trainings = this.trainingRepository.findByType(type);
         return trainings;
     }
 
     @Override
     public List<Training> findAllDescription(String description) {
-        List<Training> trainings = this.trainingRepository.findAllByDescription(description);
+        List<Training> trainings = this.trainingRepository.findByDescriptionContainingIgnoreCase(description);
         return trainings;
     }
 

@@ -33,7 +33,7 @@ public class TermController {
         this.termService = termService;
     }
 
-/*    @GetMapping(value = "/price/{price}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/price/{price}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TermDTO>> getTermsPrice(@PathVariable Double price) {
 
         List<Term> termList = this.termService.findAllPrice(price);
@@ -41,8 +41,15 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         for (Term term : termList) {
+            Hall mark = term.getHall();
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            User trainer = term.getTrainer();
+            UserDTO trainerDTO = new UserDTO(trainer);
+            Training training = term.getTraining();
+            TrainingDTO typeDTO = new TrainingDTO(training.getId(), training.getName(), training.getDescription()
+                    , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
-                    , term.getNumber_of_applications());
+                    , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
             termDTOS.add(termDTO);
         }
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
@@ -65,8 +72,15 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         for (Term term : termList) {
+            Hall mark = term.getHall();
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            User trainer = term.getTrainer();
+            UserDTO trainerDTO = new UserDTO(trainer);
+            Training training = term.getTraining();
+            TrainingDTO typeDTO = new TrainingDTO(training.getId(), training.getName(), training.getDescription()
+                    , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
-                    , term.getNumber_of_applications());
+                    , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
             termDTOS.add(termDTO);
         }
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
@@ -80,8 +94,15 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         for (Term term : termList) {
+            Hall mark = term.getHall();
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            User trainer = term.getTrainer();
+            UserDTO trainerDTO = new UserDTO(trainer);
+            Training training = term.getTraining();
+            TrainingDTO typeDTO = new TrainingDTO(training.getId(), training.getName(), training.getDescription()
+                    , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
-                    , term.getNumber_of_applications());
+                    , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
             termDTOS.add(termDTO);
         }
 
@@ -96,8 +117,15 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         for (Term term : termList) {
+            Hall mark = term.getHall();
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            User trainer = term.getTrainer();
+            UserDTO trainerDTO = new UserDTO(trainer);
+            Training training = term.getTraining();
+            TrainingDTO typeDTO = new TrainingDTO(training.getId(), training.getName(), training.getDescription()
+                    , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
-                    , term.getNumber_of_applications());
+                    , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
             termDTOS.add(termDTO);
         }
 
@@ -112,8 +140,15 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         for (Term term : termList) {
+            Hall mark = term.getHall();
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            User trainer = term.getTrainer();
+            UserDTO trainerDTO = new UserDTO(trainer);
+            Training training = term.getTraining();
+            TrainingDTO typeDTO = new TrainingDTO(training.getId(), training.getName(), training.getDescription()
+                    , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
-                    , term.getNumber_of_applications());
+                    , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
             termDTOS.add(termDTO);
         }
 
@@ -128,14 +163,21 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         for (Term term : termList) {
+            Hall mark = term.getHall();
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            User trainer = term.getTrainer();
+            UserDTO trainerDTO = new UserDTO(trainer);
+            Training training = term.getTraining();
+            TrainingDTO typeDTO = new TrainingDTO(training.getId(), training.getName(), training.getDescription()
+                    , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
-                    , term.getNumber_of_applications());
+                    , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
             termDTOS.add(termDTO);
         }
 
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
-*/
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TermDTO>> getTerms() {
 
