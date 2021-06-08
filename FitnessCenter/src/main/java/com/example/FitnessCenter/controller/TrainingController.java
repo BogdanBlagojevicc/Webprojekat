@@ -6,6 +6,7 @@ import com.example.FitnessCenter.model.dto.TrainingDTO;
 import com.example.FitnessCenter.model.dto.Type;
 import com.example.FitnessCenter.model.dto.UserDTO;
 import com.example.FitnessCenter.service.TrainingService;
+import com.example.FitnessCenter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,10 +22,12 @@ import java.util.List;
 public class TrainingController {
 
     private final TrainingService trainingService;
+    private final UserService userService;
 
     @Autowired
-    public TrainingController(TrainingService trainingService) {
+    public TrainingController(TrainingService trainingService, UserService userService) {
         this.trainingService = trainingService;
+        this.userService = userService;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -46,8 +49,14 @@ public class TrainingController {
         return new ResponseEntity<>(trainingDTOS, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TrainingDTO>> getTrainingName(@PathVariable String name) {
+    @GetMapping(value = "/name/{name}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TrainingDTO>> getTrainingName(@PathVariable String name, @PathVariable Long id) {
+
+        User user = userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
 
         List<Training> trainingList = this.trainingService.findAllName(name);
 
@@ -64,8 +73,13 @@ public class TrainingController {
         return new ResponseEntity<>(trainingDTOS, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/description/{description}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TrainingDTO>> getTrainingDescription(@PathVariable String description) {
+    @GetMapping(value = "/description/{description}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TrainingDTO>> getTrainingDescription(@PathVariable String description, @PathVariable Long id) {
+
+        User user = userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         List<Training> trainingList = this.trainingService.findAllDescription(description);
 
@@ -81,8 +95,13 @@ public class TrainingController {
         return new ResponseEntity<>(trainingDTOS, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/type/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TrainingDTO>> getTrainingType(@PathVariable String type) {
+    @GetMapping(value = "/type/{type}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TrainingDTO>> getTrainingType(@PathVariable String type, @PathVariable Long id) {
+
+        User user = userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         Type type2 = Type.valueOf(type);
         List<Training> trainingList = this.trainingService.findAllType(type2);

@@ -11,7 +11,6 @@
 
 <h1>Trainings</h1>
 <div class="login">
-<!--    <button onclick="location.href = 'login.html'"></button>-->
     <table id="training">
         <tr>
             <th>DESCRIPTION</th>
@@ -21,7 +20,68 @@
             <th>TRAINER</th>
         </tr>
     </table>
-    
+    <br/>
+
+    <form method="post" id="training_name">
+        <button type="submit">Find by name</button>
+        <label for="name"></label>
+        <input id="name" type="text" placeholder="name"/>
+        <br/>
+        <br/>
+    </form>
+
+    <form method="post" id="training_type">
+        <button type="submit">Find by type</button>
+        <select id="type">
+            <option value="" >Choose type</option>
+            <optgroup>
+                <option>Hit</option>
+                <option>Cardio</option>
+                <option>TRX</option>
+                <option>Combat</option>
+                <option>Box</option>
+                <option>Gym</option>
+            </optgroup>
+        </select>
+        <br/>
+        <br/>
+    </form>
+
+    <form method="post" id="training_description">
+        <button type="submit">Find by description</button>
+        <label for="description"></label>
+        <input id="description" type="text" placeholder="description"/>
+        <br/>
+        <br/>
+    </form>
+
+    <form method="post" id="for_everyone">
+        <button type="submit" >All terms</a></button>
+        <br/>
+        <br/>
+    </form>
+
+    <form method="post" id="admin_only">
+        <button type="submit">Add fitness center</button>
+        <br/>
+        <br/>
+    </form>
+
+    <form method="post" id="admin_only2">
+        <button type="submit">Show fitness centers</button>
+        <br/>
+        <br/>
+    </form>
+
+    <form method="post" id="admin_only3">
+        <button type="submit">Requests for training registration</button>
+        <br/>
+        <br/>
+    </form>
+
+
+
+
 </div>
 </body>
 </html>
