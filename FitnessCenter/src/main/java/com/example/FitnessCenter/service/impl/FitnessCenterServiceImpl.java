@@ -39,7 +39,7 @@ public class FitnessCenterServiceImpl implements FitnessCenterService {
     @Override
     public List<FitnessCenter> findAll() {
         List<FitnessCenter> fitnessCenters = this.fitnessCenterRepository.findAll();
-        return  fitnessCenters;
+        return fitnessCenters;
     }
 
     @Override

@@ -5,6 +5,7 @@ $(document).on("submit", "#addFitnessCenter", function (event) {
     let address = $("#ADDRESS").val();
     let phoneNumber = $("#PHONE_NUMBER").val();
     let email = $("#EMAIL").val();
+    let adminId = localStorage.getItem("id");
 
 
     let newFitnessCenter = {
@@ -16,7 +17,7 @@ $(document).on("submit", "#addFitnessCenter", function (event) {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/fitnessCenters",
+        url: "http://localhost:8080/api/fitnessCenters/" + adminId,
         dataType: "json",
         contentType: "application/json",
         data: JSON.stringify(newFitnessCenter),
@@ -24,7 +25,7 @@ $(document).on("submit", "#addFitnessCenter", function (event) {
             console.log(response);
 
             alert("Fitnes centar je uspešno kreiran!");
-            window.location.href = "login.html";
+            window.location.href = "allTrainings.html";
         },
         error: function () {
             alert("Greška prilikom dodavanja fitnes centra!");
