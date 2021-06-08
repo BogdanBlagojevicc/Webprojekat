@@ -101,6 +101,46 @@ public class UserController {
 
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Long> getUser(@PathVariable Long id) {
+
+        User user = this.userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else if (!user.getRole().equals(Role.Admin)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPhoneNumber(user.getPhoneNumber());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setBirth(user.getBirth().toString());
+        userDTO.setRole(user.getRole().toString());
+        userDTO.setActive(user.getActive());
+        userDTO.setAverageGrade(user.getAverageGrade());
+
+        return new ResponseEntity<>(userDTO.getId(), HttpStatus.OK);
+
+    }
+
+    @PutMapping(value = "/{trainerId}/{adminId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateUser(@PathVariable Long trainerId, @PathVariable Long adminId) throws Exception {
+
+        User admin = userService.findOne(adminId);
+        if (admin.getRole() != Role.Admin) {
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+
+        userService.update(userService.findOne(trainerId));
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         this.userService.delete(id);

@@ -49,15 +49,23 @@ public class UserServiceImpl implements UserService {
     }
 
     //napisao
-    public User findOneUsernameAndPassword(String username, String password){
+    public User findOneUsernameAndPassword(String username, String password) {
         User user = this.userRepository.findByUsernameAndPassword(username, password);
         return user;
     }
 
-
+    //napisao
     @Override
     public User update(User user) throws Exception {
-        return null;
+        User userToUpdate = this.userRepository.getOne(user.getId());
+        if (userToUpdate == null) {
+            throw new Exception("User doesn't exist!");
+        }
+
+        userToUpdate.setActive(true);
+
+        User savedUser = this.userRepository.save(userToUpdate);
+        return savedUser;
     }
 
 
