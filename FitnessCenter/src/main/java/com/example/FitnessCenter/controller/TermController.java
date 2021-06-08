@@ -9,6 +9,7 @@ import com.example.FitnessCenter.model.dto.TermDTO;
 import com.example.FitnessCenter.model.dto.TrainingDTO;
 import com.example.FitnessCenter.model.dto.UserDTO;
 import com.example.FitnessCenter.service.TermService;
+import com.example.FitnessCenter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @CrossOrigin(origins = "http://localhost:63342")
 @RestController
@@ -27,14 +29,21 @@ import java.util.List;
 public class TermController {
 
     private final TermService termService;
+    private final UserService userService;
 
     @Autowired
-    public TermController(TermService termService) {
+    public TermController(TermService termService, UserService userService) {
         this.termService = termService;
+        this.userService = userService;
     }
 
-    @GetMapping(value = "/price/{price}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TermDTO>> getTermsPrice(@PathVariable Double price) {
+    @GetMapping(value = "/price/{price}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TermDTO>> getTermsPrice(@PathVariable Double price, @PathVariable Long id) {
+
+        User user = userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         List<Term> termList = this.termService.findAllPrice(price);
 
@@ -56,9 +65,14 @@ public class TermController {
     }
 
     @GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TermDTO>> getTermsDate(@RequestBody String date) {
+    public ResponseEntity<List<TermDTO>> getTermsDate(@RequestParam String date, @RequestParam Long id) {
+        //        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH); dobro je za date
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.ENGLISH);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        User user = userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         List<Term> termList = new ArrayList<>();
 
@@ -86,8 +100,13 @@ public class TermController {
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/sortPriceAsc", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TermDTO>> getTermsSortAsc() {
+    @GetMapping(value = "/sortPriceAsc/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TermDTO>> getTermsSortAsc(@PathVariable Long id) {
+
+        User user = userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         List<Term> termList = this.termService.sortPriceAsc();
 
@@ -109,8 +128,13 @@ public class TermController {
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/sortPriceDesc", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TermDTO>> getTermsSortDesc() {
+    @GetMapping(value = "/sortPriceDesc/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TermDTO>> getTermsSortDesc(@PathVariable Long id) {
+
+        User user = userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         List<Term> termList = this.termService.sortPriceDesc();
 
@@ -132,8 +156,13 @@ public class TermController {
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/sortDateAsc", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TermDTO>> getTermsSortDateAsc() {
+    @GetMapping(value = "/sortDateAsc/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TermDTO>> getTermsSortDateAsc(@PathVariable Long id) {
+
+        User user = userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         List<Term> termList = this.termService.sortDateAsc();
 
@@ -155,8 +184,13 @@ public class TermController {
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/sortDateDesc", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TermDTO>> getTermsSortDateDesc() {
+    @GetMapping(value = "/sortDateDesc/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TermDTO>> getTermsSortDateDesc(@PathVariable Long id) {
+
+        User user = userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         List<Term> termList = this.termService.sortDateDesc();
 
@@ -178,8 +212,13 @@ public class TermController {
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TermDTO>> getTerms() {
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TermDTO>> getTerms(@PathVariable Long id) {
+
+        User user = userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         List<Term> termList = this.termService.findAll();
 

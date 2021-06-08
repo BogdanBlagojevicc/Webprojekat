@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<h1>Trainings</h1>
+<h1>Terms</h1>
 <div class="login">
     <table id="term">
         <tr>
@@ -24,11 +24,33 @@
 
     <button  id="btnSortByPriceAsc">Sort price asc</button>
     <br/>
+    <br/>
     <button  id="btnSortByPriceDesc">Sort price desc</button>
+    <br/>
     <br/>
     <button  id="btnSortByDateAsc">Sort date asc</button>
     <br/>
+    <br/>
     <button  id="btnSortByDateDesc">Sort date desc</button>
+    <br/>
+    <br/>
+
+    <form method="post" id="training_price">
+        <button type="submit">Find by price</button>
+        <label for="price"></label>
+        <input id="price" type="number" step="50" placeholder="price"/>
+        <br/>
+        <br/>
+    </form>
+
+    <form method="post" id="training_date">
+        <button type="submit">Find by date</button>
+        <label for="start"></label>
+<!--        <input id="start" type="date"/>-->
+        <input id="start" type="datetime-local"/>
+        <br/>
+        <br/>
+    </form>
 </div>
 </body>
 </html>
