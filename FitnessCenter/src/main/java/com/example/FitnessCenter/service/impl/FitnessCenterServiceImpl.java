@@ -42,14 +42,42 @@ public class FitnessCenterServiceImpl implements FitnessCenterService {
         return fitnessCenters;
     }
 
+    //napisao
     @Override
     public FitnessCenter findOne(Long id) {
-        return null;
+        FitnessCenter fitnessCenter = this.fitnessCenterRepository.getOne(id);
+        return fitnessCenter;
     }
 
     @Override
+    public FitnessCenter findOneEmail(String email) {
+        FitnessCenter fitnessCenter = this.fitnessCenterRepository.findOneByEmail(email);
+        return fitnessCenter;
+    }
+
+    //napisao
+    @Override
     public FitnessCenter update(FitnessCenter fitnessCenter) throws Exception {
-        return null;
+        FitnessCenter fitnessCenterToUpdate = this.fitnessCenterRepository.getOne(fitnessCenter.getId());
+        if (fitnessCenterToUpdate == null) {
+            throw new Exception("Fitness center doesn't exist");
+        }
+
+        if (!fitnessCenter.getName().equals("")) {
+            fitnessCenterToUpdate.setName(fitnessCenter.getName());
+        }
+        if (!fitnessCenter.getEmail().equals("")) {
+            fitnessCenterToUpdate.setEmail(fitnessCenter.getEmail());
+        }
+        if (!fitnessCenter.getPhoneNumber().equals("")) {
+            fitnessCenterToUpdate.setPhoneNumber(fitnessCenter.getPhoneNumber());
+        }
+        if (!fitnessCenter.getAddress().equals("")) {
+            fitnessCenterToUpdate.setAddress(fitnessCenter.getAddress());
+        }
+
+        FitnessCenter savedFitnessCenter = this.fitnessCenterRepository.save(fitnessCenterToUpdate);
+        return savedFitnessCenter;
     }
 
 

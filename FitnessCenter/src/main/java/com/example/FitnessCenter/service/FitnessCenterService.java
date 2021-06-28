@@ -8,6 +8,8 @@ public interface FitnessCenterService {
 
     FitnessCenter findOne(Long id);
 
+    FitnessCenter findOneEmail(String email);
+
     List<FitnessCenter> findAll();
 
     FitnessCenter create(FitnessCenter fitnessCenter) throws Exception;

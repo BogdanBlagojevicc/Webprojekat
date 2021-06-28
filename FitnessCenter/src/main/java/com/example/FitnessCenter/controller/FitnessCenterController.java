@@ -71,4 +71,31 @@ public class FitnessCenterController {
 
         return new ResponseEntity<>(fitnessCenterDTOS, HttpStatus.OK);
     }
+
+    @PutMapping(value = "/{adminId}/{fcId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<FitnessCenterDTO> updateFitnessCenter(@PathVariable Long adminId, @PathVariable Long fcId
+            , @RequestBody FitnessCenterDTO fitnessCenterDTO) throws Exception {
+
+        User admin = this.userService.findOne(adminId);
+        if (admin == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else if (admin.getRole() != Role.Admin) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+
+        FitnessCenter fitnessCenter = new FitnessCenter(fitnessCenterDTO.getName(), fitnessCenterDTO.getAddress()
+                , fitnessCenterDTO.getPhoneNumber(), fitnessCenterDTO.getEmail());
+
+        fitnessCenter.setId(fcId);
+
+        FitnessCenter updatedFitnessCenter = fitnessCenterService.update(fitnessCenter);
+
+        FitnessCenterDTO updatedFitnessCenterDTO = new FitnessCenterDTO(updatedFitnessCenter.getId(),
+                updatedFitnessCenter.getName(), updatedFitnessCenter.getAddress(), updatedFitnessCenter.getPhoneNumber(),
+                updatedFitnessCenter.getEmail());
+
+        return new ResponseEntity<>(updatedFitnessCenterDTO, HttpStatus.OK);
+
+    }
 }

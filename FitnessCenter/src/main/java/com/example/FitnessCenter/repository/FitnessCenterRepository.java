@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FitnessCenterRepository extends JpaRepository<FitnessCenter, Long> {
+
+    FitnessCenter findOneByEmail(String email);
 }

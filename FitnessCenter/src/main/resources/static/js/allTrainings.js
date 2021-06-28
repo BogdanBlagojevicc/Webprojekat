@@ -240,5 +240,31 @@ $(document).on("submit", "#admin_only3", function (event) {
     });
 });
 
+// $(document).on("submit", "#admin_only4", function (event) {
+//     event.preventDefault();
+//
+//     let adminId = localStorage.getItem("id");
+//
+//     $.ajax({
+//         type: "GET",
+//         url: "http://localhost:8080/api/users/" + adminId,
+//         dataType: "json",
+//         contentType: "application/json",
+//         success: function (response) {
+//             console.log("SUCCESS admin", response);
+//
+//             localStorage.setItem("id", response);
+//             console.log(localStorage.getItem("id"));
+//
+//             alert("Vi ste admin moze!");
+//             window.location.href = "updateFitnessCenter.html";
+//
+//         },
+//         error: function () {
+//             alert("Greška niste admin!");
+//         }
+//     });
+// });
+
 
 
