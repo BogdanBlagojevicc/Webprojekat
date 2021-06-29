@@ -17,4 +17,6 @@ public interface FitnessCenterService {
     FitnessCenter update(FitnessCenter fitnessCenter) throws Exception;
 
     FitnessCenter delete(FitnessCenter fitnessCenter) throws Exception;
+
+    void save(FitnessCenter fitnessCenter);
 }

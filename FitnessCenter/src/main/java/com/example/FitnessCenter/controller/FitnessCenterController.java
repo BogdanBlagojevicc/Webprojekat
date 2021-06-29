@@ -2,10 +2,12 @@ package com.example.FitnessCenter.controller;
 
 
 import com.example.FitnessCenter.model.FitnessCenter;
+import com.example.FitnessCenter.model.Hall;
 import com.example.FitnessCenter.model.User;
 import com.example.FitnessCenter.model.dto.FitnessCenterDTO;
 import com.example.FitnessCenter.model.dto.Role;
 import com.example.FitnessCenter.service.FitnessCenterService;
+import com.example.FitnessCenter.service.HallService;
 import com.example.FitnessCenter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,11 +25,13 @@ public class FitnessCenterController {
 
     private final FitnessCenterService fitnessCenterService;
     private final UserService userService;
+    private final HallService hallService;
 
     @Autowired
-    public FitnessCenterController(FitnessCenterService fitnessCenterService, UserService userService) {
+    public FitnessCenterController(FitnessCenterService fitnessCenterService, UserService userService, HallService hallService) {
         this.fitnessCenterService = fitnessCenterService;
         this.userService = userService;
+        this.hallService = hallService;
     }
 
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

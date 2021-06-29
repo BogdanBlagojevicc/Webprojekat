@@ -1,6 +1,5 @@
 package com.example.FitnessCenter.repository;
 
-import com.example.FitnessCenter.model.FitnessCenter;
 import com.example.FitnessCenter.model.Hall;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,8 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FitnessCenterRepository extends JpaRepository<FitnessCenter, Long> {
+public interface HallRepository extends JpaRepository<Hall, Long> {
 
-    FitnessCenter findOneByEmail(String email);
-
+    List<Hall> findAllByFitnessCenterId(Long id);
 }

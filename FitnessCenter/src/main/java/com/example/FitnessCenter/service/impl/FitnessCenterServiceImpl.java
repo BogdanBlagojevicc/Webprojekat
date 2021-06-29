@@ -1,7 +1,9 @@
 package com.example.FitnessCenter.service.impl;
 
 import com.example.FitnessCenter.model.FitnessCenter;
+import com.example.FitnessCenter.model.Hall;
 import com.example.FitnessCenter.repository.FitnessCenterRepository;
+import com.example.FitnessCenter.repository.HallRepository;
 import com.example.FitnessCenter.service.FitnessCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,12 @@ import java.util.List;
 public class FitnessCenterServiceImpl implements FitnessCenterService {
 
     private final FitnessCenterRepository fitnessCenterRepository;
+    private final HallRepository hallRepository;
 
     @Autowired
-    public FitnessCenterServiceImpl(FitnessCenterRepository fitnessCenterRepository) {
+    public FitnessCenterServiceImpl(FitnessCenterRepository fitnessCenterRepository, HallRepository hallRepository) {
         this.fitnessCenterRepository = fitnessCenterRepository;
+        this.hallRepository = hallRepository;
     }
 
     //napisao
@@ -78,14 +82,25 @@ public class FitnessCenterServiceImpl implements FitnessCenterService {
     @Override
     public FitnessCenter delete(FitnessCenter fitnessCenter) throws Exception {
         FitnessCenter fitnessCenterToDelete = this.fitnessCenterRepository.getOne(fitnessCenter.getId());
-        if(fitnessCenterToDelete == null){
+        if (fitnessCenterToDelete == null) {
             throw new Exception("Fitness center doesn't exist");
         }
 
         fitnessCenterToDelete.setIsDeleted(true);
 
+        List<Hall> halls = this.hallRepository.findAllByFitnessCenterId(fitnessCenter.getId());
+        for (Hall hall : halls) {
+            hall.setIsDeleted(true);
+            this.hallRepository.save(hall);
+        }
+
         FitnessCenter savedFitnessCenter = this.fitnessCenterRepository.save(fitnessCenterToDelete);
         return savedFitnessCenter;
+    }
+
+    @Override
+    public void save(FitnessCenter fitnessCenter) {
+        fitnessCenterRepository.save(fitnessCenter);
     }
 
 

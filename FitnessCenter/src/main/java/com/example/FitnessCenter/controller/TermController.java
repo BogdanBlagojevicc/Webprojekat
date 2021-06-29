@@ -49,9 +49,10 @@ public class TermController {
 
         List<TermDTO> termDTOS = new ArrayList<>();
 
+        Boolean isDeleted = false;
         for (Term term : termList) {
             Hall mark = term.getHall();
-            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
             User trainer = term.getTrainer();
             UserDTO trainerDTO = new UserDTO(trainer);
             Training training = term.getTraining();
@@ -85,9 +86,10 @@ public class TermController {
 
         List<TermDTO> termDTOS = new ArrayList<>();
 
+        Boolean isDeleted = false;
         for (Term term : termList) {
             Hall mark = term.getHall();
-            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
             User trainer = term.getTrainer();
             UserDTO trainerDTO = new UserDTO(trainer);
             Training training = term.getTraining();
@@ -112,9 +114,10 @@ public class TermController {
 
         List<TermDTO> termDTOS = new ArrayList<>();
 
+        Boolean isDeleted = false;
         for (Term term : termList) {
             Hall mark = term.getHall();
-            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
             User trainer = term.getTrainer();
             UserDTO trainerDTO = new UserDTO(trainer);
             Training training = term.getTraining();
@@ -140,9 +143,10 @@ public class TermController {
 
         List<TermDTO> termDTOS = new ArrayList<>();
 
+        Boolean isDeleted = false;
         for (Term term : termList) {
             Hall mark = term.getHall();
-            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
             User trainer = term.getTrainer();
             UserDTO trainerDTO = new UserDTO(trainer);
             Training training = term.getTraining();
@@ -168,9 +172,10 @@ public class TermController {
 
         List<TermDTO> termDTOS = new ArrayList<>();
 
+        Boolean isDeleted = false;
         for (Term term : termList) {
             Hall mark = term.getHall();
-            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
             User trainer = term.getTrainer();
             UserDTO trainerDTO = new UserDTO(trainer);
             Training training = term.getTraining();
@@ -196,9 +201,10 @@ public class TermController {
 
         List<TermDTO> termDTOS = new ArrayList<>();
 
+        Boolean isDeleted = false;
         for (Term term : termList) {
             Hall mark = term.getHall();
-            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
             User trainer = term.getTrainer();
             UserDTO trainerDTO = new UserDTO(trainer);
             Training training = term.getTraining();
@@ -224,9 +230,10 @@ public class TermController {
 
         List<TermDTO> termDTOS = new ArrayList<>();
 
+        Boolean isDeleted = false;
         for (Term term : termList) {
             Hall mark = term.getHall();
-            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark());
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
             User trainer = term.getTrainer();
             UserDTO trainerDTO = new UserDTO(trainer);
             Training training = term.getTraining();

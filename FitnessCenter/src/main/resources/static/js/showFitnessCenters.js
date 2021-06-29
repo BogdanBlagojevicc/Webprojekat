@@ -17,6 +17,10 @@ $(document).ready(function () {
                 row += "<td>" + btn + "</td>";
                 btn = "<button class='delete' data-id=" + training.id + ">Delete</button>";
                 row += "<td>" + btn + "</td>";
+                btn = "<button class='add_hall' data-id=" + training.id + ">Add hall</button>";
+                row += "<td>" + btn + "</td>";
+                btn = "<button class='see_more_halls' data-id=" + training.id + ">See more halls</button>";
+                row += "<td>" + btn + "</td>";
                 row += "</tr>";
 
                 $('#training').append(row);
@@ -76,5 +80,48 @@ $(document).on('click', '.delete', function (event) {
     });
 });
 
+$(document).on('click', '.see_more_halls', function () {
 
+    let adminId = localStorage.getItem("id");
+    let fcId = this.dataset.id;
+    localStorage.setItem("seeMore", fcId);
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/update/" + adminId,
+        dataType: "json",
+        success: function (response) {
+            console.log("SUCCESS:\n", response);
+
+            alert("Vi ste admin moze see more!");
+            window.location.href = "SeeMoreHall.html";
+        },
+        error: function (response) {
+            console.log("ERROR:\n", response);
+        }
+    });
+});
+
+//dodavanje sale
+$(document).on('click', '.add_hall', function () {
+
+    let adminId = localStorage.getItem("id");
+    let fcId = this.dataset.id;
+    localStorage.setItem("addHall", fcId);
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/update/" + adminId,
+        dataType: "json",
+        success: function (response) {
+            console.log("SUCCESS:\n", response);
+
+            alert("Vi ste admin moze add!");
+            window.location.href = "addHall.html";
+        },
+        error: function (response) {
+            console.log("ERROR:\n", response);
+        }
+    });
+});
 

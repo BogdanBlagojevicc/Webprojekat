@@ -21,6 +21,9 @@ public class Hall implements Serializable {
     @Column(unique = true)
     private String mark;
 
+    @Column
+    private Boolean isDeleted;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private FitnessCenter fitnessCenter;
 
@@ -30,9 +33,10 @@ public class Hall implements Serializable {
     public Hall() {
     }
 
-    public Hall(Integer capacity, String mark) {
+    public Hall(Integer capacity, String mark, Boolean isDeleted) {
         this.capacity = capacity;
         this.mark = mark;
+        this.isDeleted = isDeleted;
     }
 
     @Override
@@ -42,6 +46,7 @@ public class Hall implements Serializable {
                 ", capacity=" + capacity +
                 ", mark='" + mark + '\'' +
                 ", fitnessCenter=" + fitnessCenter +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 }
