@@ -1,8 +1,10 @@
 package com.example.FitnessCenter.controller;
 
+import com.example.FitnessCenter.model.FitnessCenter;
 import com.example.FitnessCenter.model.User;
 import com.example.FitnessCenter.model.dto.Role;
 import com.example.FitnessCenter.model.dto.UserDTO;
+import com.example.FitnessCenter.service.FitnessCenterService;
 import com.example.FitnessCenter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,10 +24,12 @@ import java.util.Locale;
 public class UserController {
 
     private final UserService userService;
+    private final FitnessCenterService fitnessCenterService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, FitnessCenterService fitnessCenterService) {
         this.userService = userService;
+        this.fitnessCenterService = fitnessCenterService;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,7 +81,12 @@ public class UserController {
         User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName()
                 , userDTO.getPhoneNumber(), userDTO.getEmail(), dateBirth, role, isActive, userDTO.getAverageGrade());
 
+        long fcId = 1;
+        FitnessCenter fitnessCenter = fitnessCenterService.findOne(fcId);
+        user.setFitnessCenter(fitnessCenter);
         User newUser = userService.create(user);
+        fitnessCenter.getUsers().add(newUser);
+        fitnessCenterService.save(fitnessCenter);
 
         UserDTO newUserDTO = new UserDTO(newUser.getId(), newUser.getUsername(), newUser.getPassword(), newUser.getFirstName()
                 , newUser.getLastName(), newUser.getPhoneNumber(), newUser.getEmail(), newUser.getBirth().toString(), newUser.getRole().toString()

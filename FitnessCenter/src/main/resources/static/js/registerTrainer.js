@@ -38,7 +38,7 @@ $(document).on("submit", "#registerTrainer", function (event) {
             console.log(response);
 
             alert("Trener je uspešno kreiran!");
-            window.location.href = "login.html";
+            window.location.href = "allTrainings.html";
         },
         error: function () {
             alert("Greška prilikom dodavanja zaposlenog!");
