@@ -30,8 +30,16 @@ public class UserServiceImpl implements UserService {
 
     //napisao
     @Override
-    public void delete(Long id) {
-        this.userRepository.deleteById(id);
+    public User delete(User user) throws Exception{
+        User userToDelete = this.userRepository.getOne(user.getId());
+        if(userToDelete == null){
+            throw new Exception("User doesn't exist");
+        }
+
+        userToDelete.setIsDeleted(true);
+
+        User savedUser  = this.userRepository.save(userToDelete);
+        return savedUser;
     }
 
     //napisao

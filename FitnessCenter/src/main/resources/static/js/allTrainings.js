@@ -37,14 +37,15 @@ $(document).on("submit", "#training_name", function (event) {
         contentType: "application/json",
         success: function (response) {
             console.log("SUCCESS naziv", response);
-            $('#training').find('tbody').children( 'tr:not(:first)' ).remove();
+            $('#training').find('tbody').children('tr:not(:first)').remove();
 
             for (let term of response) {
                 let row = "<tr>";
                 row += "<td>" + term.description + "</td>";
                 row += "<td>" + term.duration + "</td>";
                 row += "<td>" + term.name + "</td>";
-                row += "<td>" + term.type + "</td>";;
+                row += "<td>" + term.type + "</td>";
+                ;
                 row += "<td>" + term.trainer.firstName + "</td>";
 
                 row += "</tr>";
@@ -69,19 +70,20 @@ $(document).on("submit", "#training_type", function (event) {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/trainings/type/" + type + "/" +  userId,
+        url: "http://localhost:8080/api/trainings/type/" + type + "/" + userId,
         dataType: "json",
         contentType: "application/json",
         success: function (response) {
             console.log("SUCCESS type", response);
-            $('#training').find('tbody').children( 'tr:not(:first)' ).remove();
+            $('#training').find('tbody').children('tr:not(:first)').remove();
 
             for (let term of response) {
                 let row = "<tr>";
                 row += "<td>" + term.description + "</td>";
                 row += "<td>" + term.duration + "</td>";
                 row += "<td>" + term.name + "</td>";
-                row += "<td>" + term.type + "</td>";;
+                row += "<td>" + term.type + "</td>";
+                ;
                 row += "<td>" + term.trainer.firstName + "</td>";
 
                 row += "</tr>";
@@ -111,14 +113,15 @@ $(document).on("submit", "#training_description", function (event) {
         contentType: "application/json",
         success: function (response) {
             console.log("SUCCESS description", response);
-            $('#training').find('tbody').children( 'tr:not(:first)' ).remove();
+            $('#training').find('tbody').children('tr:not(:first)').remove();
 
             for (let term of response) {
                 let row = "<tr>";
                 row += "<td>" + term.description + "</td>";
                 row += "<td>" + term.duration + "</td>";
                 row += "<td>" + term.name + "</td>";
-                row += "<td>" + term.type + "</td>";;
+                row += "<td>" + term.type + "</td>";
+                ;
                 row += "<td>" + term.trainer.firstName + "</td>";
 
                 row += "</tr>";
@@ -258,6 +261,32 @@ $(document).on("submit", "#admin_only4", function (event) {
 
             alert("Vi ste admin moze!");
             window.location.href = "registerTrainer.html";
+
+        },
+        error: function () {
+            alert("Greška niste admin!");
+        }
+    });
+});
+
+$(document).on("submit", "#admin_only5", function (event) {
+    event.preventDefault();
+
+    let adminId = localStorage.getItem("id");
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/" + adminId,
+        dataType: "json",
+        contentType: "application/json",
+        success: function (response) {
+            console.log("SUCCESS admin", response);
+
+            localStorage.setItem("id", response);
+            console.log(localStorage.getItem("id"));
+
+            alert("Vi ste admin moze!");
+            window.location.href = "showTrainers.html";
 
         },
         error: function () {

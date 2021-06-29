@@ -16,6 +16,6 @@ public interface UserService {
 
     User update(User user) throws Exception;
 
-    void delete(Long id);
+    User delete(User user) throws Exception;
 
 }

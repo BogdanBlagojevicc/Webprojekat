@@ -50,6 +50,9 @@ public class User implements Serializable {
     @Column
     private Double averageGrade;
 
+    @Column
+    private Boolean isDeleted;
+
     @OneToMany(mappedBy = "sports_man", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Apply> applications;
 
@@ -63,7 +66,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String password, String firstName, String lastName, String phoneNumber, String email, Date birth, com.example.FitnessCenter.model.dto.Role role, Boolean active, Double averageGrade) {
+    public User(String username, String password, String firstName, String lastName, String phoneNumber, String email, Date birth, com.example.FitnessCenter.model.dto.Role role, Boolean active, Double averageGrade, Boolean isDeleted) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -74,6 +77,7 @@ public class User implements Serializable {
         this.role = role;
         this.active = active;
         this.averageGrade = averageGrade;
+        this.isDeleted = isDeleted;
     }
 
     @Override
@@ -91,6 +95,7 @@ public class User implements Serializable {
                 ", active=" + active +
                 ", averageGrade=" + averageGrade +
                 ", fitnessCenter=" + fitnessCenter +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 }

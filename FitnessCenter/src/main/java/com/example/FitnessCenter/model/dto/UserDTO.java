@@ -19,11 +19,12 @@ public class UserDTO {
     private String role;
     private Boolean active;
     private Double averageGrade;
+    private Boolean isDeleted;
 
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String username, String password, String firstName, String lastName, String phoneNumber, String email, String birth, String role, Boolean active, Double averageGrade) {
+    public UserDTO(Long id, String username, String password, String firstName, String lastName, String phoneNumber, String email, String birth, String role, Boolean active, Double averageGrade, Boolean isDeleted) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -35,6 +36,7 @@ public class UserDTO {
         this.role = role;
         this.active = active;
         this.averageGrade = averageGrade;
+        this.isDeleted = isDeleted;
     }
 
     public UserDTO(User trainer) {
@@ -49,5 +51,6 @@ public class UserDTO {
         this.role = trainer.getRole().toString();
         this.active = trainer.getActive();
         this.averageGrade = trainer.getAverageGrade();
+        this.isDeleted = trainer.getIsDeleted();
     }
 }

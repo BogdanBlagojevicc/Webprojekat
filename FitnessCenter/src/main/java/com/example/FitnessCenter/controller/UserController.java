@@ -45,14 +45,15 @@ public class UserController {
             isActive = false;
         }
 
+        Boolean isDeleted = false;
         User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName()
-                , userDTO.getPhoneNumber(), userDTO.getEmail(), dateBirth, role, isActive, userDTO.getAverageGrade());
+                , userDTO.getPhoneNumber(), userDTO.getEmail(), dateBirth, role, isActive, userDTO.getAverageGrade(), isDeleted);
 
         User newUser = userService.create(user);
 
         UserDTO newUserDTO = new UserDTO(newUser.getId(), newUser.getUsername(), newUser.getPassword(), newUser.getFirstName()
                 , newUser.getLastName(), newUser.getPhoneNumber(), newUser.getEmail(), newUser.getBirth().toString(), newUser.getRole().toString()
-                , newUser.getActive(), newUser.getAverageGrade());
+                , newUser.getActive(), newUser.getAverageGrade(), isDeleted);
 
         return new ResponseEntity<>(newUserDTO, HttpStatus.CREATED);
     }
@@ -78,8 +79,9 @@ public class UserController {
             isActive = true;
         }
 
+        Boolean isDeleted = false;
         User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName()
-                , userDTO.getPhoneNumber(), userDTO.getEmail(), dateBirth, role, isActive, userDTO.getAverageGrade());
+                , userDTO.getPhoneNumber(), userDTO.getEmail(), dateBirth, role, isActive, userDTO.getAverageGrade(), isDeleted);
 
         long fcId = 1;
         FitnessCenter fitnessCenter = fitnessCenterService.findOne(fcId);
@@ -90,7 +92,7 @@ public class UserController {
 
         UserDTO newUserDTO = new UserDTO(newUser.getId(), newUser.getUsername(), newUser.getPassword(), newUser.getFirstName()
                 , newUser.getLastName(), newUser.getPhoneNumber(), newUser.getEmail(), newUser.getBirth().toString(), newUser.getRole().toString()
-                , newUser.getActive(), newUser.getAverageGrade());
+                , newUser.getActive(), newUser.getAverageGrade(), isDeleted);
 
         return new ResponseEntity<>(newUserDTO, HttpStatus.CREATED);
     }
@@ -102,10 +104,11 @@ public class UserController {
 
         List<UserDTO> userDTOS = new ArrayList<>();
 
+        Boolean isDeleted = false;
         for (User user : userList) {
             UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getPassword(), user.getFirstName()
                     , user.getLastName(), user.getPhoneNumber(), user.getEmail(), user.getBirth().toString()
-                    , user.getRole().toString(), user.getActive(), user.getAverageGrade());
+                    , user.getRole().toString(), user.getActive(), user.getAverageGrade(), isDeleted);
             if (user.getRole() == Role.Trainer && user.getActive() == false) {
                 userDTOS.add(userDTO);
             }
@@ -197,6 +200,31 @@ public class UserController {
 
     }
 
+    @GetMapping(value = "/trainers/{adminId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UserDTO>> getTrainers(@PathVariable Long adminId) {
+
+        User admin = this.userService.findOne(adminId);
+        if (admin == null || admin.getRole() != Role.Admin) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<User> userList = this.userService.findAll();
+
+        List<UserDTO> userDTOS = new ArrayList<>();
+
+        Boolean isDeleted = false;
+        for (User user : userList) {
+            UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getPassword(), user.getFirstName()
+                    , user.getLastName(), user.getPhoneNumber(), user.getEmail(), user.getBirth().toString()
+                    , user.getRole().toString(), user.getActive(), user.getAverageGrade(), isDeleted);
+            if (user.getRole() == Role.Trainer && user.getIsDeleted() == Boolean.FALSE) {
+                userDTOS.add(userDTO);
+            }
+        }
+
+        return new ResponseEntity<>(userDTOS, HttpStatus.OK);
+    }
+
 
     @PutMapping(value = "/{trainerId}/{adminId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateUser(@PathVariable Long trainerId, @PathVariable Long adminId) throws Exception {
@@ -212,10 +240,17 @@ public class UserController {
     }
 
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        this.userService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @PutMapping(value = "/delete/{adminId}/{trainerId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteTrainer(@PathVariable Long adminId, @PathVariable Long trainerId) throws Exception {
+
+        User admin = this.userService.findOne(adminId);
+        if (admin == null || admin.getRole() != Role.Admin) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        this.userService.delete(userService.findOne(trainerId));
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
