@@ -53,6 +53,39 @@ public class UserController {
         return new ResponseEntity<>(newUserDTO, HttpStatus.CREATED);
     }
 
+    @PostMapping(value = "/{adminId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> createTrainer(@PathVariable Long adminId, @RequestBody UserDTO userDTO) throws Exception {
+
+        User admin = this.userService.findOne(adminId);
+        if (admin == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else if (!admin.getRole().equals(Role.Admin)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+        String dateInString = userDTO.getBirth();
+        Date dateBirth = formatter.parse(dateInString);
+
+        Role role = Role.valueOf(userDTO.getRole());
+        Boolean isActive = true;
+        if (role.equals(Role.Trainer)) {
+            isActive = true;
+        }
+
+        User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName()
+                , userDTO.getPhoneNumber(), userDTO.getEmail(), dateBirth, role, isActive, userDTO.getAverageGrade());
+
+        User newUser = userService.create(user);
+
+        UserDTO newUserDTO = new UserDTO(newUser.getId(), newUser.getUsername(), newUser.getPassword(), newUser.getFirstName()
+                , newUser.getLastName(), newUser.getPhoneNumber(), newUser.getEmail(), newUser.getBirth().toString(), newUser.getRole().toString()
+                , newUser.getActive(), newUser.getAverageGrade());
+
+        return new ResponseEntity<>(newUserDTO, HttpStatus.CREATED);
+    }
+
     @GetMapping(value = "/trainersApplyForRegistration", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getApplyForRegistration() {
 
