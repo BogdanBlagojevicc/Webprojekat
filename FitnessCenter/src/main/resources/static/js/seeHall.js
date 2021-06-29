@@ -2,10 +2,11 @@ $(document).ready(function () {
 
     let fcId = localStorage.getItem("seeMore");
     console.log(fcId);
+    let adminId = localStorage.getItem("id");
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/halls/" + fcId,
+        url: "http://localhost:8080/api/halls/" + fcId + "/" + adminId,
         dataType: "json",
         success: function (response) {
             console.log("SUCCESS:\n", response);

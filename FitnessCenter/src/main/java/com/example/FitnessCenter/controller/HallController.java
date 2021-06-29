@@ -56,8 +56,15 @@ public class HallController {
         return new ResponseEntity<>(newHallDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{fcId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<HallDTO>> getHalls(@PathVariable Long fcId) {
+    @GetMapping(value = "/{fcId}/{adminId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<HallDTO>> getHalls(@PathVariable Long fcId, @PathVariable Long adminId) {
+
+        User admin = this.userService.findOne(adminId);
+        if (admin == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else if (admin.getRole() != Role.Admin) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         List<Hall> hallList = this.hallService.findAll(fcId);
 
