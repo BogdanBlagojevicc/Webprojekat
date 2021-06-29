@@ -38,23 +38,32 @@ public class FitnessCenterController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        Boolean isDeleted = false;
         FitnessCenter fitnessCenter = new FitnessCenter(fitnessCenterDTO.getName(), fitnessCenterDTO.getAddress()
-                , fitnessCenterDTO.getPhoneNumber(), fitnessCenterDTO.getEmail());
+                , fitnessCenterDTO.getPhoneNumber(), fitnessCenterDTO.getEmail(), isDeleted);
 
         FitnessCenter newFitnessCenter = fitnessCenterService.create(fitnessCenter);
 
+
         FitnessCenterDTO newFitnessCenterDTO = new FitnessCenterDTO(newFitnessCenter.getId(), newFitnessCenter.getName()
-                , newFitnessCenter.getAddress(), newFitnessCenter.getPhoneNumber(), newFitnessCenter.getEmail());
+                , newFitnessCenter.getAddress(), newFitnessCenter.getPhoneNumber(), newFitnessCenter.getEmail(), isDeleted);
 
         return new ResponseEntity<>(newFitnessCenterDTO, HttpStatus.CREATED);
     }
+/*
+    //nisam koristio
+    @DeleteMapping(value = "/{adminId}/{fitnessCenterId}")
+    public ResponseEntity<Void> deleteFitnessCenter(@PathVariable Long adminId, @PathVariable Long fitnessCenterId) {
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteFitnessCenter(@PathVariable Long id) {
-        this.fitnessCenterService.delete(id);
+        User user = userService.findOne(adminId);
+        if (user == null || user.getRole() != Role.Admin) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        this.fitnessCenterService.delete(fitnessCenterId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
+*/
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<FitnessCenterDTO>> getFitnessCenters() {
 
@@ -63,10 +72,13 @@ public class FitnessCenterController {
 
         List<FitnessCenterDTO> fitnessCenterDTOS = new ArrayList<>();
 
+        Boolean isDeleted = false;
         for (FitnessCenter fitnessCenter : fitnessCenterList) {
             FitnessCenterDTO fitnessCenterDTO = new FitnessCenterDTO(fitnessCenter.getId(), fitnessCenter.getName()
-                    , fitnessCenter.getAddress(), fitnessCenter.getPhoneNumber(), fitnessCenter.getEmail());
-            fitnessCenterDTOS.add(fitnessCenterDTO);
+                    , fitnessCenter.getAddress(), fitnessCenter.getPhoneNumber(), fitnessCenter.getEmail(), isDeleted);
+            if(fitnessCenter.getIsDeleted() == false){
+                fitnessCenterDTOS.add(fitnessCenterDTO);
+            }
         }
 
         return new ResponseEntity<>(fitnessCenterDTOS, HttpStatus.OK);
@@ -84,8 +96,9 @@ public class FitnessCenterController {
         }
 
 
+        Boolean isDeleted = false;
         FitnessCenter fitnessCenter = new FitnessCenter(fitnessCenterDTO.getName(), fitnessCenterDTO.getAddress()
-                , fitnessCenterDTO.getPhoneNumber(), fitnessCenterDTO.getEmail());
+                , fitnessCenterDTO.getPhoneNumber(), fitnessCenterDTO.getEmail(), isDeleted);
 
         fitnessCenter.setId(fcId);
 
@@ -93,9 +106,23 @@ public class FitnessCenterController {
 
         FitnessCenterDTO updatedFitnessCenterDTO = new FitnessCenterDTO(updatedFitnessCenter.getId(),
                 updatedFitnessCenter.getName(), updatedFitnessCenter.getAddress(), updatedFitnessCenter.getPhoneNumber(),
-                updatedFitnessCenter.getEmail());
+                updatedFitnessCenter.getEmail(), isDeleted);
 
         return new ResponseEntity<>(updatedFitnessCenterDTO, HttpStatus.OK);
+
+    }
+
+    @PutMapping(value = "/delete/{adminId}/{fcId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteFitnessCenter(@PathVariable Long adminId, @PathVariable Long fcId) throws Exception {
+
+        User admin = this.userService.findOne(adminId);
+        if (admin == null || admin.getRole() != Role.Admin) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        fitnessCenterService.delete(fitnessCenterService.findOne(fcId));
+
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 }

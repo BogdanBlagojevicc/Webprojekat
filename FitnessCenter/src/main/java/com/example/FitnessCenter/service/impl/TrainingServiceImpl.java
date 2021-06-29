@@ -42,9 +42,7 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public void delete(Long id) {
-        this.trainingRepository.deleteById(id);
-    }
+    public void delete(Long id) { this.trainingRepository.deleteById(id); }
 
 
     @Override

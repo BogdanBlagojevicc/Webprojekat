@@ -31,12 +31,6 @@ public class FitnessCenterServiceImpl implements FitnessCenterService {
 
     //napisao
     @Override
-    public void delete(Long id) {
-        this.fitnessCenterRepository.deleteById(id);
-    }
-
-    //napisao
-    @Override
     public List<FitnessCenter> findAll() {
         List<FitnessCenter> fitnessCenters = this.fitnessCenterRepository.findAll();
         return fitnessCenters;
@@ -77,6 +71,20 @@ public class FitnessCenterServiceImpl implements FitnessCenterService {
         }
 
         FitnessCenter savedFitnessCenter = this.fitnessCenterRepository.save(fitnessCenterToUpdate);
+        return savedFitnessCenter;
+    }
+
+    //napisao
+    @Override
+    public FitnessCenter delete(FitnessCenter fitnessCenter) throws Exception {
+        FitnessCenter fitnessCenterToDelete = this.fitnessCenterRepository.getOne(fitnessCenter.getId());
+        if(fitnessCenterToDelete == null){
+            throw new Exception("Fitness center doesn't exist");
+        }
+
+        fitnessCenterToDelete.setIsDeleted(true);
+
+        FitnessCenter savedFitnessCenter = this.fitnessCenterRepository.save(fitnessCenterToDelete);
         return savedFitnessCenter;
     }
 

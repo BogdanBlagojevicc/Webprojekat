@@ -27,6 +27,9 @@ public class FitnessCenter implements Serializable {
     @Column(unique = true)
     private String email;
 
+    @Column
+    private Boolean isDeleted;
+
     @OneToMany(mappedBy = "fitnessCenter", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> users;
 
@@ -36,11 +39,12 @@ public class FitnessCenter implements Serializable {
     public FitnessCenter() {
     }
 
-    public FitnessCenter(String name, String address, String phoneNumber, String email) {
+    public FitnessCenter(String name, String address, String phoneNumber, String email, Boolean  isDeleted) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.isDeleted = isDeleted;
     }
 
     @Override
@@ -51,6 +55,7 @@ public class FitnessCenter implements Serializable {
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
+                ", isDeleted='" + isDeleted + '\'' +
                 '}';
     }
 }
