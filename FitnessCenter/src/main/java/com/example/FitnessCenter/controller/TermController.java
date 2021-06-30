@@ -4,10 +4,7 @@ import com.example.FitnessCenter.model.Hall;
 import com.example.FitnessCenter.model.Term;
 import com.example.FitnessCenter.model.Training;
 import com.example.FitnessCenter.model.User;
-import com.example.FitnessCenter.model.dto.HallDTO;
-import com.example.FitnessCenter.model.dto.TermDTO;
-import com.example.FitnessCenter.model.dto.TrainingDTO;
-import com.example.FitnessCenter.model.dto.UserDTO;
+import com.example.FitnessCenter.model.dto.*;
 import com.example.FitnessCenter.service.TermService;
 import com.example.FitnessCenter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,9 +63,11 @@ public class TermController {
     }
 
     @GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TermDTO>> getTermsDate(@RequestParam String date, @RequestParam Long id) {
+    public ResponseEntity<List<TermDTO>> getTermsDate(@RequestParam String date, @RequestParam Long id
+            , @RequestParam String name, @RequestParam String type, @RequestParam String description
+            , @RequestParam Double price) {
         //        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH); dobro je za date
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
 
         User user = userService.findOne(id);
         if (user == null) {
@@ -77,11 +76,11 @@ public class TermController {
 
         List<Term> termList = new ArrayList<>();
 
-        try {
-            Date date2 = formatter.parse(date);
-            termList = this.termService.findAllDate(date2);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if(type.equals("") || type == null){
+            termList = this.termService.findAllEverythingWithoutType(name, description, price, date);
+        }else{
+            Type type2 = Type.valueOf(type);
+            termList = this.termService.findAllEverything(name, type2, description, price, date);
         }
 
         List<TermDTO> termDTOS = new ArrayList<>();

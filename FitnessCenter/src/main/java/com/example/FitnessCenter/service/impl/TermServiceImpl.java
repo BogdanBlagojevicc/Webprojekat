@@ -1,13 +1,17 @@
 package com.example.FitnessCenter.service.impl;
 
 import com.example.FitnessCenter.model.Term;
+import com.example.FitnessCenter.model.dto.Type;
 import com.example.FitnessCenter.repository.TermRepository;
 import com.example.FitnessCenter.service.TermService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class TermServiceImpl implements TermService {
@@ -61,6 +65,79 @@ public class TermServiceImpl implements TermService {
         return terms;
     }
 
+    //1. js T u razmak
+    //2. promeniti formatter
+    //3. proveriti prazan string da li vraca sve
+    //4. proveriti sekunde da li treba brisati ili ne
+    @Override
+    public List<Term> findAllEverything(String name, Type type, String description, Double price, String date){
+        Date fromStringToDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
+        if(name == null || name.equals("")){
+            name = "";
+        }
+
+        if (description == null || description.equals("")){
+            description = "";
+        }
+
+        if(price == 1000000.00){
+            price = 1000000.00;
+        }
+        /*if(price == null || price.equals("")){
+
+        }*/
+
+        try {
+            if(date == null || date.equals("")) {
+                fromStringToDate = formatter.parse("2040-12-17 11:30");
+            }else {
+                fromStringToDate = formatter.parse(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        if(type == null || type.equals("")){
+            List<Term> terms = this.termRepository.findByTrainingNameContainingIgnoreCaseAndTrainingDescriptionContainingIgnoreCaseAndPriceLessThanEqualAndStartLessThanEqual(name, description, price, fromStringToDate);
+            return terms;
+        }else{
+            List<Term> terms = this.termRepository.findByTrainingNameContainingIgnoreCaseAndTrainingTypeAndTrainingDescriptionContainingIgnoreCaseAndPriceLessThanEqualAndStartLessThanEqual(name, type, description, price,  fromStringToDate);
+            return terms;
+        }
+    }
+
+    @Override
+    public List<Term> findAllEverythingWithoutType(String name, String description, Double price, String date){
+        Date fromStringToDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
+        if(name == null || name.equals("")){
+            name = "";
+        }
+
+        if (description == null || description.equals("")){
+            description = "";
+        }
+        if(price == null || price.equals("")){
+            price = 1000000.00;
+        }
+
+        try {
+            if(date == null || date.equals("")) {
+                fromStringToDate = formatter.parse("2021-12-17 11:30");
+            }else {
+                fromStringToDate = formatter.parse(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        List<Term> terms = this.termRepository.findByTrainingNameContainingIgnoreCaseAndTrainingDescriptionContainingIgnoreCaseAndPriceLessThanEqualAndStartLessThanEqual(name, description, price, fromStringToDate);
+        return terms;
+    }
+
+    //ove dole nisu implementirane
     @Override
     public Term findOne(Long id) {
         return null;

@@ -45,7 +45,6 @@ $(document).on("submit", "#training_name", function (event) {
                 row += "<td>" + term.duration + "</td>";
                 row += "<td>" + term.name + "</td>";
                 row += "<td>" + term.type + "</td>";
-                ;
                 row += "<td>" + term.trainer.firstName + "</td>";
 
                 row += "</tr>";
@@ -83,7 +82,6 @@ $(document).on("submit", "#training_type", function (event) {
                 row += "<td>" + term.duration + "</td>";
                 row += "<td>" + term.name + "</td>";
                 row += "<td>" + term.type + "</td>";
-                ;
                 row += "<td>" + term.trainer.firstName + "</td>";
 
                 row += "</tr>";
@@ -121,7 +119,6 @@ $(document).on("submit", "#training_description", function (event) {
                 row += "<td>" + term.duration + "</td>";
                 row += "<td>" + term.name + "</td>";
                 row += "<td>" + term.type + "</td>";
-                ;
                 row += "<td>" + term.trainer.firstName + "</td>";
 
                 row += "</tr>";

@@ -17,6 +17,8 @@ $(document).ready(function () {
                 row += "<td>" + term.markDTO.mark + "</td>";
                 row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
+                row += "<td>" + term.typeDTO.name + "</td>";
+                row += "<td>" + term.typeDTO.description + "</td>";
                 row += "</tr>";
 
 
@@ -40,19 +42,22 @@ $(document).on('click', '#btnSortByPriceAsc', function () {
         dataType: "json",
         success: function (response) {
             console.log("SUCCESS Sort Asc", response);
-            $('#term').find('tbody').children( 'tr:not(:first)' ).remove();
+            $('#term').find('tbody').children('tr:not(:first)').remove();
 
             for (let term of response) {
-                let row = "<tr>";
+                let row = "<tr id='newTable'>";
                 row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
                 row += "<td>" + term.markDTO.mark + "</td>";
                 row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
+                row += "<td>" + term.typeDTO.name + "</td>";
+                row += "<td>" + term.typeDTO.description + "</td>";
                 row += "</tr>";
 
-                 $('#term').append(row);
+
+                $('#term').append(row);
             }
         },
         error: function (response) {
@@ -71,17 +76,20 @@ $(document).on('click', '#btnSortByPriceDesc', function () {
         dataType: "json",
         success: function (response) {
             console.log("SUCCESS Sort Desc", response);
-            $('#term').find('tbody').children( 'tr:not(:first)' ).remove();
+            $('#term').find('tbody').children('tr:not(:first)').remove();
 
             for (let term of response) {
-                let row = "<tr>";
+                let row = "<tr id='newTable'>";
                 row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
                 row += "<td>" + term.markDTO.mark + "</td>";
                 row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
+                row += "<td>" + term.typeDTO.name + "</td>";
+                row += "<td>" + term.typeDTO.description + "</td>";
                 row += "</tr>";
+
 
                 $('#term').append(row);
             }
@@ -102,16 +110,18 @@ $(document).on('click', '#btnSortByDateAsc', function () {
         dataType: "json",
         success: function (response) {
             console.log("SUCCESS Date Asc", response);
-            $('#term').find('tbody').children( 'tr:not(:first)' ).remove();
+            $('#term').find('tbody').children('tr:not(:first)').remove();
 
             for (let term of response) {
-                let row = "<tr>";
+                let row = "<tr id='newTable'>";
                 row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
                 row += "<td>" + term.markDTO.mark + "</td>";
                 row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
+                row += "<td>" + term.typeDTO.name + "</td>";
+                row += "<td>" + term.typeDTO.description + "</td>";
                 row += "</tr>";
 
 
@@ -135,16 +145,18 @@ $(document).on('click', '#btnSortByDateDesc', function () {
         dataType: "json",
         success: function (response) {
             console.log("SUCCESS Date Desc", response);
-            $('#term').find('tbody').children( 'tr:not(:first)' ).remove();
+            $('#term').find('tbody').children('tr:not(:first)').remove();
 
             for (let term of response) {
-                let row = "<tr>";
+                let row = "<tr id='newTable'>";
                 row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
                 row += "<td>" + term.markDTO.mark + "</td>";
                 row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
+                row += "<td>" + term.typeDTO.name + "</td>";
+                row += "<td>" + term.typeDTO.description + "</td>";
                 row += "</tr>";
 
 
@@ -166,23 +178,25 @@ $(document).on("submit", "#training_price", function (event) {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/terms/price/" + price + "/" +  userid,
+        url: "http://localhost:8080/api/terms/price/" + price + "/" + userid,
         dataType: "json",
         contentType: "application/json",
         success: function (response) {
             console.log("SUCCESS price", response);
-            $('#term').find('tbody').children( 'tr:not(:first)' ).remove();
+            $('#term').find('tbody').children('tr:not(:first)').remove();
 
             for (let term of response) {
-                let row = "<tr>";
+                let row = "<tr id='newTable'>";
                 row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
                 row += "<td>" + term.markDTO.mark + "</td>";
                 row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
-
+                row += "<td>" + term.typeDTO.name + "</td>";
+                row += "<td>" + term.typeDTO.description + "</td>";
                 row += "</tr>";
+
 
                 $('#term').append(row);
             }
@@ -212,22 +226,24 @@ $(document).on("submit", "#training_date", function (event) {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/terms/date?date=" + start + "&id="  + userid,
+        url: "http://localhost:8080/api/terms/date?date=" + start + "&id=" + userid,
         contentType: "application/json",
         success: function (response) {
             console.log("SUCCESS date", response);
-            $('#term').find('tbody').children( 'tr:not(:first)' ).remove();
+            $('#term').find('tbody').children('tr:not(:first)').remove();
 
             for (let term of response) {
-                let row = "<tr>";
+                let row = "<tr id='newTable'>";
                 row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
                 row += "<td>" + term.markDTO.mark + "</td>";
                 row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
-
+                row += "<td>" + term.typeDTO.name + "</td>";
+                row += "<td>" + term.typeDTO.description + "</td>";
                 row += "</tr>";
+
 
                 $('#term').append(row);
             }
@@ -237,6 +253,73 @@ $(document).on("submit", "#training_date", function (event) {
         },
         error: function (response) {
             alert("Greška prilikom pregrage po date!");
+        }
+    });
+});
+
+$(document).on("submit", "#find", function (event) {
+    event.preventDefault();
+
+    let name = $("#name").val();
+    let type = $("#type").val();
+    let description = $("#description").val();
+    let price = $("#price").val();
+    let start = $("#start").val();
+    let userid = localStorage.getItem("id");
+    console.log("name", name);
+    console.log("type", type);
+    console.log("description", description);
+    console.log("price", price);
+    console.log("start", start);
+    console.log("userId", userid);
+    let replacedStart = start.replace("T", " ");
+    start = replacedStart;
+    console.log("izmena start: ", start);
+    if(price == ""){
+        price = 1000000.00;
+    }
+    console.log("price: " , price);
+
+    let newData = {
+        name,
+        type,
+        description,
+        price,
+        start
+    }
+
+    console.log("json ", JSON.stringify(newData));
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/terms/date?date=" + replacedStart + "&id=" + userid + "&name=" + name
+            + "&type=" + type + "&description=" + description + "&price=" + price,
+        contentType: "application/json",
+        success: function (response) {
+            console.log("SUCCESS find", response);
+            $('#term').find('tbody').children('tr:not(:first)').remove();
+
+            for (let term of response) {
+                let row = "<tr id='newTable'>";
+                row += "<td>" + term.number_of_applications + "</td>";
+                row += "<td>" + term.price + "</td>";
+                row += "<td>" + term.start + "</td>";
+                row += "<td>" + term.markDTO.mark + "</td>";
+                row += "<td>" + term.trainerDTO.firstName + "</td>";
+                row += "<td>" + term.typeDTO.type + "</td>";
+                row += "<td>" + term.typeDTO.name + "</td>";
+                row += "<td>" + term.typeDTO.description + "</td>";
+                row += "</tr>";
+
+
+                $('#term').append(row);
+            }
+
+            alert("Uspesan find!");
+
+        },
+        error: function (response) {
+            alert("Greška prilikom find!");
         }
     });
 });
