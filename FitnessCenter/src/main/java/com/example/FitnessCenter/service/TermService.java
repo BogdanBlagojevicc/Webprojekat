@@ -30,7 +30,6 @@ public interface TermService {
 
     List<Term> sortDateDesc();
 
-    List<Term> findAllEverything(String name, Type type, String description, Double price, String date);
+    List<Term> findAllEverything(String name, String type, String description, Double price, String date);
 
-    List<Term> findAllEverythingWithoutType(String name, String description, Double price, String date);
 }

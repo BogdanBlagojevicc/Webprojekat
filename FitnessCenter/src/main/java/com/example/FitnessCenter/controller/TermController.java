@@ -76,12 +76,7 @@ public class TermController {
 
         List<Term> termList = new ArrayList<>();
 
-        if(type.equals("") || type == null){
-            termList = this.termService.findAllEverythingWithoutType(name, description, price, date);
-        }else{
-            Type type2 = Type.valueOf(type);
-            termList = this.termService.findAllEverything(name, type2, description, price, date);
-        }
+        termList = this.termService.findAllEverything(name, type, description, price, date);
 
         List<TermDTO> termDTOS = new ArrayList<>();
 
