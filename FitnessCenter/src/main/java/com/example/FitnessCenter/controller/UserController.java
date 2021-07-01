@@ -200,6 +200,33 @@ public class UserController {
 
     }
 
+    @GetMapping(value = "/isUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Long> isUser(@PathVariable Long id) {
+
+        User user = this.userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else if (!user.getRole().equals(Role.User)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPhoneNumber(user.getPhoneNumber());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setBirth(user.getBirth().toString());
+        userDTO.setRole(user.getRole().toString());
+        userDTO.setActive(user.getActive());
+        userDTO.setAverageGrade(user.getAverageGrade());
+
+        return new ResponseEntity<>(userDTO.getId(), HttpStatus.OK);
+
+    }
+
     @GetMapping(value = "/trainers/{adminId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getTrainers(@PathVariable Long adminId) {
 

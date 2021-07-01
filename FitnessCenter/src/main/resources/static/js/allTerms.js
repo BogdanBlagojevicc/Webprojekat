@@ -11,14 +11,13 @@ $(document).ready(function () {
 
             for (let term of response) {
                 let row = "<tr id='newTable'>";
-                row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
-                row += "<td>" + term.markDTO.mark + "</td>";
-                row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
                 row += "<td>" + term.typeDTO.name + "</td>";
                 row += "<td>" + term.typeDTO.description + "</td>";
+                let btn = "<button class='see_more_term' data-id=" + term.id + ">See more</button>";
+                row += "<td>" + btn + "</td>";
                 row += "</tr>";
 
 
@@ -27,6 +26,29 @@ $(document).ready(function () {
 
         },
         error: function (response) {
+            console.log("ERROR:\n", response);
+        }
+    });
+});
+
+$(document).on('click', '.see_more_term', function () {
+
+    let userId = localStorage.getItem("id");
+    let termId = this.dataset.id;
+    localStorage.setItem("seeMoreterm", termId);
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/isUser/" + userId,
+        dataType: "json",
+        success: function (response) {
+            console.log("SUCCESS:\n", response);
+
+            alert("Vi ste user moze see more!");
+            window.location.href = "SeeMoreTerm.html";
+        },
+        error: function (response) {
+            alert("Vi niste user ne moze see more!");
             console.log("ERROR:\n", response);
         }
     });
@@ -46,14 +68,13 @@ $(document).on('click', '#btnSortByPriceAsc', function () {
 
             for (let term of response) {
                 let row = "<tr id='newTable'>";
-                row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
-                row += "<td>" + term.markDTO.mark + "</td>";
-                row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
                 row += "<td>" + term.typeDTO.name + "</td>";
                 row += "<td>" + term.typeDTO.description + "</td>";
+                let btn = "<button class='see_more_term' data-id=" + term.id + ">See more</button>";
+                row += "<td>" + btn + "</td>";
                 row += "</tr>";
 
 
@@ -80,14 +101,13 @@ $(document).on('click', '#btnSortByPriceDesc', function () {
 
             for (let term of response) {
                 let row = "<tr id='newTable'>";
-                row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
-                row += "<td>" + term.markDTO.mark + "</td>";
-                row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
                 row += "<td>" + term.typeDTO.name + "</td>";
                 row += "<td>" + term.typeDTO.description + "</td>";
+                let btn = "<button class='see_more_term' data-id=" + term.id + ">See more</button>";
+                row += "<td>" + btn + "</td>";
                 row += "</tr>";
 
 
@@ -114,14 +134,13 @@ $(document).on('click', '#btnSortByDateAsc', function () {
 
             for (let term of response) {
                 let row = "<tr id='newTable'>";
-                row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
-                row += "<td>" + term.markDTO.mark + "</td>";
-                row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
                 row += "<td>" + term.typeDTO.name + "</td>";
                 row += "<td>" + term.typeDTO.description + "</td>";
+                let btn = "<button class='see_more_term' data-id=" + term.id + ">See more</button>";
+                row += "<td>" + btn + "</td>";
                 row += "</tr>";
 
 
@@ -149,14 +168,13 @@ $(document).on('click', '#btnSortByDateDesc', function () {
 
             for (let term of response) {
                 let row = "<tr id='newTable'>";
-                row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
-                row += "<td>" + term.markDTO.mark + "</td>";
-                row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
                 row += "<td>" + term.typeDTO.name + "</td>";
                 row += "<td>" + term.typeDTO.description + "</td>";
+                let btn = "<button class='see_more_term' data-id=" + term.id + ">See more</button>";
+                row += "<td>" + btn + "</td>";
                 row += "</tr>";
 
 
@@ -187,14 +205,13 @@ $(document).on("submit", "#training_price", function (event) {
 
             for (let term of response) {
                 let row = "<tr id='newTable'>";
-                row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
-                row += "<td>" + term.markDTO.mark + "</td>";
-                row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
                 row += "<td>" + term.typeDTO.name + "</td>";
                 row += "<td>" + term.typeDTO.description + "</td>";
+                let btn = "<button class='see_more_term' data-id=" + term.id + ">See more</button>";
+                row += "<td>" + btn + "</td>";
                 row += "</tr>";
 
 
@@ -234,14 +251,13 @@ $(document).on("submit", "#training_date", function (event) {
 
             for (let term of response) {
                 let row = "<tr id='newTable'>";
-                row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
-                row += "<td>" + term.markDTO.mark + "</td>";
-                row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
                 row += "<td>" + term.typeDTO.name + "</td>";
                 row += "<td>" + term.typeDTO.description + "</td>";
+                let btn = "<button class='see_more_term' data-id=" + term.id + ">See more</button>";
+                row += "<td>" + btn + "</td>";
                 row += "</tr>";
 
 
@@ -301,14 +317,13 @@ $(document).on("submit", "#find", function (event) {
 
             for (let term of response) {
                 let row = "<tr id='newTable'>";
-                row += "<td>" + term.number_of_applications + "</td>";
                 row += "<td>" + term.price + "</td>";
                 row += "<td>" + term.start + "</td>";
-                row += "<td>" + term.markDTO.mark + "</td>";
-                row += "<td>" + term.trainerDTO.firstName + "</td>";
                 row += "<td>" + term.typeDTO.type + "</td>";
                 row += "<td>" + term.typeDTO.name + "</td>";
                 row += "<td>" + term.typeDTO.description + "</td>";
+                let btn = "<button class='see_more_term' data-id=" + term.id + ">See more</button>";
+                row += "<td>" + btn + "</td>";
                 row += "</tr>";
 
 

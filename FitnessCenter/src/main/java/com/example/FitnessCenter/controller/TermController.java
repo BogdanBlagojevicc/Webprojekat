@@ -240,4 +240,34 @@ public class TermController {
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{termId}/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TermDTO>> getTerm(@PathVariable Long termId, @PathVariable Long userId) {
+
+        User user = userService.findOne(userId);
+        if (user == null || user.getRole()!=Role.User) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<Term> termList = this.termService.findAll();
+
+        List<TermDTO> termDTOS = new ArrayList<>();
+
+        Boolean isDeleted = false;
+        for (Term term : termList) {
+            Hall mark = term.getHall();
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
+            User trainer = term.getTrainer();
+            UserDTO trainerDTO = new UserDTO(trainer);
+            Training training = term.getTraining();
+            TrainingDTO typeDTO = new TrainingDTO(training.getId(), training.getName(), training.getDescription()
+                    , training.getType().toString(), training.getDuration());
+            TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
+                    , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
+            if(term.getId() == termId){
+                termDTOS.add(termDTO);
+            }
+        }
+        return new ResponseEntity<>(termDTOS, HttpStatus.OK);
+    }
+
 }
