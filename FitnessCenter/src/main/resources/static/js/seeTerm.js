@@ -29,3 +29,28 @@ $(document).ready(function () {
         }
     });
 });
+
+$(document).on("click", ".confirm_term", function () {
+
+    let termId = this.dataset.id;
+    let userId = localStorage.getItem("id");
+    console.log("Term", termId);
+    console.log("User", userId);
+
+    $.ajax({
+        type: "PUT",
+        url: "http://localhost:8080/api/terms/" + termId + "/" + userId,
+        contentType: "application/json",
+        success: function (response) {
+            console.log("SUCCESS user", response);
+
+            alert("Uspesna prijava za trening!");
+            window.location.href = "allTerms.html";
+
+        },
+        error: function (response) {
+            alert("Greska: nema slobodnih mesta ili ste se vec prijavili!!!");
+            window.location.href = "allTerms.html";
+        }
+    });
+});

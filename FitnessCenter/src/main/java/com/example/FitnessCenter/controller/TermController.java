@@ -1,10 +1,8 @@
 package com.example.FitnessCenter.controller;
 
-import com.example.FitnessCenter.model.Hall;
-import com.example.FitnessCenter.model.Term;
-import com.example.FitnessCenter.model.Training;
-import com.example.FitnessCenter.model.User;
+import com.example.FitnessCenter.model.*;
 import com.example.FitnessCenter.model.dto.*;
+import com.example.FitnessCenter.service.ApplyService;
 import com.example.FitnessCenter.service.TermService;
 import com.example.FitnessCenter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,11 +23,13 @@ public class TermController {
 
     private final TermService termService;
     private final UserService userService;
+    private final ApplyService applyService;
 
     @Autowired
-    public TermController(TermService termService, UserService userService) {
+    public TermController(TermService termService, UserService userService, ApplyService applyService) {
         this.termService = termService;
         this.userService = userService;
+        this.applyService = applyService;
     }
 
     @GetMapping(value = "/price/{price}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -268,6 +266,44 @@ public class TermController {
             }
         }
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{termId}/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> applyForTerm(@PathVariable Long termId, @PathVariable Long userId) throws Exception {
+
+        User user = this.userService.findOne(userId);
+        if (user == null || user.getRole() != Role.User) {
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+
+        Term term = this.termService.findOne(termId);
+        List<Apply> applyList = this.applyService.findAll();
+
+        if(term == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if(term.getNumber_of_applications() == term.getHall().getCapacity()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            for(Apply apply  : applyList){
+                User sportsMan = apply.getSports_man();
+                Term term1 = apply.getTerm();
+                if(sportsMan.getId() == userId && term1.getId() == termId){
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+
+            Apply apply = new Apply();
+            applyService.create(apply);
+            apply.setSports_man(user);
+            applyService.save(apply);
+            term.getTerm_apply().add(apply);
+            apply.setTerm(term);
+            termService.save(term);
+            termService.applyForTerm(termService.findOne(termId));
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

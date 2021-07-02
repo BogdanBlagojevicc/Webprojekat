@@ -5,6 +5,7 @@ import com.example.FitnessCenter.model.dto.Type;
 import com.example.FitnessCenter.repository.TermRepository;
 import com.example.FitnessCenter.service.TermService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -102,24 +103,24 @@ public class TermServiceImpl implements TermService {
         }
     }
 
-    //ove dole nisu implementirane
+    public Term applyForTerm(Term term) throws Exception{
+        Term applyForTerm = this.termRepository.getOne(term.getId());
+
+        applyForTerm.setNumber_of_applications(applyForTerm.getNumber_of_applications() + 1);
+
+        Term savedTerm = this.termRepository.save(applyForTerm);
+        return savedTerm;
+    }
+
     @Override
     public Term findOne(Long id) {
-        return null;
+        Term term = this.termRepository.getOne(id);
+        return term;
     }
 
     @Override
-    public Term create(Term term) throws Exception {
-        return null;
+    public void save(Term term) {
+        termRepository.save(term);
     }
 
-    @Override
-    public Term update(Term term) throws Exception {
-        return null;
-    }
-
-    @Override
-    public void delete(Long id) {
-
-    }
 }

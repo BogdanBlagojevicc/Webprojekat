@@ -12,11 +12,6 @@ public interface TermService {
 
     List<Term> findAll();
 
-    Term create(Term term) throws Exception;
-
-    Term update(Term term) throws Exception;
-
-    void delete(Long id);
 
     List<Term> findAllPrice(Double price);
 
@@ -32,4 +27,7 @@ public interface TermService {
 
     List<Term> findAllEverything(String name, String type, String description, Double price, String date);
 
+    Term applyForTerm(Term term) throws Exception;
+
+    void save(Term term);
 }
