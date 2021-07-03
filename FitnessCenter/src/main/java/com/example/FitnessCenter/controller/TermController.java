@@ -1,6 +1,7 @@
 package com.example.FitnessCenter.controller;
 
 import com.example.FitnessCenter.model.*;
+import com.example.FitnessCenter.model.dto.Role;
 import com.example.FitnessCenter.model.dto.*;
 import com.example.FitnessCenter.service.ApplyService;
 import com.example.FitnessCenter.service.TermService;
@@ -242,7 +243,7 @@ public class TermController {
     public ResponseEntity<List<TermDTO>> getTerm(@PathVariable Long termId, @PathVariable Long userId) {
 
         User user = userService.findOne(userId);
-        if (user == null || user.getRole()!=Role.User) {
+        if (user == null || user.getRole() != Role.User) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -261,7 +262,7 @@ public class TermController {
                     , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                     , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-            if(term.getId() == termId){
+            if (term.getId() == termId) {
                 termDTOS.add(termDTO);
             }
         }
@@ -279,31 +280,69 @@ public class TermController {
         Term term = this.termService.findOne(termId);
         List<Apply> applyList = this.applyService.findAll();
 
-        if(term == null){
+        if (term == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        if(term.getNumber_of_applications() == term.getHall().getCapacity()){
+        if (term.getNumber_of_applications() == term.getHall().getCapacity()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else{
-            for(Apply apply  : applyList){
-                User sportsMan = apply.getSports_man();
-                Term term1 = apply.getTerm();
-                if(sportsMan.getId() == userId && term1.getId() == termId){
-                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-                }
-            }
-
-            Apply apply = new Apply();
-            applyService.create(apply);
-            apply.setSports_man(user);
-            applyService.save(apply);
-            term.getTerm_apply().add(apply);
-            apply.setTerm(term);
-            termService.save(term);
-            termService.applyForTerm(termService.findOne(termId));
         }
 
+        for (Apply apply : applyList) {
+            User sportsMan = apply.getSports_man();
+            Term term1 = apply.getTerm();
+            if (sportsMan.getId() == userId && term1.getId() == termId) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        Apply apply = new Apply();
+        applyService.create(apply);
+        apply.setSports_man(user);
+        applyService.save(apply);
+        term.getTerm_apply().add(apply);
+        apply.setTerm(term);
+        termService.save(term);
+        termService.applyForTerm(termService.findOne(termId));
+
+
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/allApplicationsForTerms/{userid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TermDTO>> getAllApplicationsForTerms(@PathVariable Long userid) {
+
+        User user = userService.findOne(userid);
+        if (user == null || user.getRole() != Role.User) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<Term> termList = this.termService.findAll();
+
+        List<TermDTO> termDTOS = new ArrayList<>();
+
+        List<Apply> applyList = this.applyService.findAll();
+
+        Boolean isDeleted = false;
+
+        for (Apply apply : applyList) {
+            User sportsMan = apply.getSports_man();
+            if (sportsMan.getId() == userid) {
+                Term term = apply.getTerm();
+                Hall mark = term.getHall();
+                HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
+                User trainer = term.getTrainer();
+                UserDTO trainerDTO = new UserDTO(trainer);
+                Training training = term.getTraining();
+                TrainingDTO typeDTO = new TrainingDTO(training.getId(), training.getName(), training.getDescription()
+                        , training.getType().toString(), training.getDuration());
+                TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
+                        , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
+                if (term.getNumber_of_applications() > 0) {
+                    termDTOS.add(termDTO);
+                }
+            }
+        }
+        return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
 
 }

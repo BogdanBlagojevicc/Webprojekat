@@ -9,8 +9,5 @@ import java.util.List;
 @Repository
 public interface ApplyRepository extends JpaRepository<Apply, Long> {
 
-    //List<Apply> findAllBySports_manId(Long id);
-
-//    List<Apply> findAllBySports_manOrderById(Long id);
 
 }

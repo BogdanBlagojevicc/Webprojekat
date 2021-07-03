@@ -338,3 +338,24 @@ $(document).on("submit", "#find", function (event) {
         }
     });
 });
+
+$(document).on('click', '#showComingTerms', function () {
+
+    let userid = localStorage.getItem("id");
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/isUser/" + userid,
+        dataType: "json",
+        success: function (response) {
+            console.log("SUCCESS", response);
+
+            alert("Vi ste user moze!");
+            window.location.href = "SeeAllApplications.html";
+
+        },
+        error: function (response) {
+            console.log("ERROR:\n", response);
+        }
+    });
+});
