@@ -14,7 +14,7 @@ public interface ApplyService {
 
     Apply findOne(Long id);
 
-//    Apply delete(Apply apply) throws Exception;
+    Apply delete(Apply apply) throws Exception;
 
     void save(Apply apply);
 }

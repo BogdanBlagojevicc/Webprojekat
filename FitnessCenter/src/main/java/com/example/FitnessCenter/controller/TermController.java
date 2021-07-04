@@ -291,13 +291,22 @@ public class TermController {
             User sportsMan = apply.getSports_man();
             Term term1 = apply.getTerm();
             if (sportsMan.getId() == userId && term1.getId() == termId) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                if(apply.getIsDeleted() == Boolean.FALSE){
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+                apply.setIsDeleted(false);
+                applyService.save(apply);
+                term1.setNumber_of_applications(term1.getNumber_of_applications()+1);
+                termService.save(term1);
+                return new ResponseEntity<>(HttpStatus.OK);
             }
         }
 
         Apply apply = new Apply();
         applyService.create(apply);
         apply.setSports_man(user);
+        apply.setIsDeleted(Boolean.FALSE);
+        apply.setDone(Boolean.FALSE);
         applyService.save(apply);
         term.getTerm_apply().add(apply);
         apply.setTerm(term);
@@ -337,7 +346,7 @@ public class TermController {
                         , training.getType().toString(), training.getDuration());
                 TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                         , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-                if (term.getNumber_of_applications() > 0) {
+                if (term.getNumber_of_applications() > 0 && apply.getIsDeleted() == Boolean.FALSE) {
                     termDTOS.add(termDTO);
                 }
             }

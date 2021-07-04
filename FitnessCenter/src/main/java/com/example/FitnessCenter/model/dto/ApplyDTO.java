@@ -13,6 +13,7 @@ public class ApplyDTO {
     private Long id;
     private Integer grade;
     private Boolean done;
+    private Boolean isDeleted;
 
     private User sports_man;
     private Term term;
@@ -20,17 +21,19 @@ public class ApplyDTO {
     public ApplyDTO() {
     }
 
-    public ApplyDTO(Long id, Integer grade, Boolean done) {
+    public ApplyDTO(Long id, Integer grade, Boolean done, Boolean isDeleted) {
         this.id = id;
         this.grade = grade;
         this.done = done;
+        this.isDeleted = isDeleted;
     }
 
-    public ApplyDTO(Long id, Integer grade, Boolean done, User sports_man, Term term) {
+    public ApplyDTO(Long id, Integer grade, Boolean done, User sports_man, Term term, Boolean isDeleted) {
         this.id = id;
         this.grade = grade;
         this.done = done;
         this.sports_man = sports_man;
         this.term = term;
+        this.isDeleted = isDeleted;
     }
 }

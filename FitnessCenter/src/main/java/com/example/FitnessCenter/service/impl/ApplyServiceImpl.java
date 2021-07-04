@@ -1,7 +1,9 @@
 package com.example.FitnessCenter.service.impl;
 
 import com.example.FitnessCenter.model.Apply;
+import com.example.FitnessCenter.model.Term;
 import com.example.FitnessCenter.repository.ApplyRepository;
+import com.example.FitnessCenter.repository.TermRepository;
 import com.example.FitnessCenter.service.ApplyService;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,11 @@ import java.util.List;
 public class ApplyServiceImpl implements ApplyService {
 
     private final ApplyRepository applyRepository;
+    private final TermRepository termRepository;
 
-    public ApplyServiceImpl(ApplyRepository applyRepository) {
+    public ApplyServiceImpl(ApplyRepository applyRepository, TermRepository termRepository) {
         this.applyRepository = applyRepository;
+        this.termRepository = termRepository;
     }
 
 
@@ -49,8 +53,20 @@ public class ApplyServiceImpl implements ApplyService {
         return apply;
     }
 
-//    @Override
-//    public Apply delete(Apply apply) throws Exception {
-//        return null;
-//    }
+    @Override
+    public Apply delete(Apply apply) throws Exception {
+        Apply applyToDelete = this.applyRepository.getOne(apply.getId());
+        if(applyToDelete == null){
+            throw new Exception("Apply doesn't exist");
+        }
+
+        applyToDelete.setIsDeleted(true);
+
+        Term term = this.termRepository.getOne(apply.getTerm().getId());
+        term.setNumber_of_applications(term.getNumber_of_applications()-1);
+        this.termRepository.save(term);
+
+        Apply savedApply = this.applyRepository.save(applyToDelete);
+        return savedApply;
+    }
 }

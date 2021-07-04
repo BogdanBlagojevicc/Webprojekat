@@ -20,6 +20,9 @@ public class Apply implements Serializable {
     @Column
     private Boolean done;
 
+    @Column
+    private Boolean isDeleted;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private User sports_man;
 
@@ -29,9 +32,10 @@ public class Apply implements Serializable {
     public Apply() {
     }
 
-    public Apply(Integer grade, Boolean done) {
+    public Apply(Integer grade, Boolean done, Boolean isDeleted) {
         this.grade = grade;
         this.done = done;
+        this.isDeleted = isDeleted;
     }
 
     @Override
@@ -42,6 +46,7 @@ public class Apply implements Serializable {
                 ", done=" + done +
                 ", sports_man=" + sports_man +
                 ", term=" + term +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 }
