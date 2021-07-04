@@ -76,5 +76,36 @@ public class UserServiceImpl implements UserService {
         return savedUser;
     }
 
+    @Override
+    public User change(User user) throws Exception{
+        User userToChange = this.userRepository.getOne(user.getId());
+        if(userToChange == null){
+            throw new Exception("User doesn't exist!");
+        }
+
+        if(!user.getFirstName().equals("")){
+            userToChange.setFirstName(user.getFirstName());
+        }
+
+        if(!user.getLastName().equals("")){
+            userToChange.setLastName(user.getLastName());
+        }
+
+        if(!user.getEmail().equals("")){
+            userToChange.setEmail(user.getEmail());
+        }
+
+        if(!user.getPassword().equals("")){
+            userToChange.setPassword(user.getPassword());
+        }
+
+        if(!user.getPhoneNumber().equals("")){
+            userToChange.setPhoneNumber(user.getPhoneNumber());
+        }
+
+        User savedUser = this.userRepository.save(userToChange);
+        return savedUser;
+    }
+
 
 }

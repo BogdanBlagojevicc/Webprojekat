@@ -280,4 +280,54 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/profile/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> getUserProfile(@PathVariable Long userId) {
+
+        User user = this.userService.findOne(userId);
+        if (user == null || !user.getRole().equals(Role.User)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPhoneNumber(user.getPhoneNumber());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setBirth(user.getBirth().toString());
+        userDTO.setRole(user.getRole().toString());
+        userDTO.setActive(user.getActive());
+        userDTO.setAverageGrade(user.getAverageGrade());
+        userDTO.setIsDeleted(user.getIsDeleted());
+
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+
+    }
+
+    @PutMapping(value = "/change/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> changeUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) throws Exception {
+
+        User userCheck = this.userService.findOne(userId);
+        if (userCheck == null || !userCheck.getRole().equals(Role.User)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        User user = new User(userCheck.getUsername(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName()
+                , userDTO.getPhoneNumber(), userDTO.getEmail(), userCheck.getBirth(), userCheck.getRole(),
+                userCheck.getActive(), userCheck.getAverageGrade(), userCheck.getIsDeleted());
+
+        user.setId(userId);
+
+        User changedUser = userService.change(user);
+
+        UserDTO changedUserDTO = new UserDTO(changedUser.getId(), changedUser.getUsername(), changedUser.getPassword(),
+                changedUser.getFirstName(), changedUser.getLastName(), changedUser.getPhoneNumber(), changedUser.getEmail(),
+                changedUser.getBirth().toString(), changedUser.getRole().toString(), changedUser.getActive()
+                , changedUser.getAverageGrade(), changedUser.getIsDeleted());
+
+        return new ResponseEntity<>(changedUserDTO, HttpStatus.OK);
+    }
+
 }

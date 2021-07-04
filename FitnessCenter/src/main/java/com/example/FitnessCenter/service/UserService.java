@@ -18,4 +18,6 @@ public interface UserService {
 
     User delete(User user) throws Exception;
 
+    User change(User user) throws Exception;
+
 }
