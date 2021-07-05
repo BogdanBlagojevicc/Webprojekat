@@ -18,6 +18,7 @@ $(document).on("submit", "#updateFitnessCenter", function (event) {
         email
     }
 
+
     $.ajax({
         type: "PUT",
         url: "http://localhost:8080/api/fitnessCenters/" + adminId + "/" + fitnessCenterId,

@@ -54,20 +54,21 @@ public class FitnessCenterController {
 
         return new ResponseEntity<>(newFitnessCenterDTO, HttpStatus.CREATED);
     }
-/*
-    //nisam koristio
-    @DeleteMapping(value = "/{adminId}/{fitnessCenterId}")
-    public ResponseEntity<Void> deleteFitnessCenter(@PathVariable Long adminId, @PathVariable Long fitnessCenterId) {
 
-        User user = userService.findOne(adminId);
-        if (user == null || user.getRole() != Role.Admin) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    /*
+        //nisam koristio
+        @DeleteMapping(value = "/{adminId}/{fitnessCenterId}")
+        public ResponseEntity<Void> deleteFitnessCenter(@PathVariable Long adminId, @PathVariable Long fitnessCenterId) {
+
+            User user = userService.findOne(adminId);
+            if (user == null || user.getRole() != Role.Admin) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            this.fitnessCenterService.delete(fitnessCenterId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
-        this.fitnessCenterService.delete(fitnessCenterId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-*/
+    */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<FitnessCenterDTO>> getFitnessCenters() {
 
@@ -80,7 +81,7 @@ public class FitnessCenterController {
         for (FitnessCenter fitnessCenter : fitnessCenterList) {
             FitnessCenterDTO fitnessCenterDTO = new FitnessCenterDTO(fitnessCenter.getId(), fitnessCenter.getName()
                     , fitnessCenter.getAddress(), fitnessCenter.getPhoneNumber(), fitnessCenter.getEmail(), isDeleted);
-            if(fitnessCenter.getIsDeleted() == false){
+            if (fitnessCenter.getIsDeleted() == false) {
                 fitnessCenterDTOS.add(fitnessCenterDTO);
             }
         }
@@ -128,5 +129,20 @@ public class FitnessCenterController {
 
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    @GetMapping(value = "/{fcId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<FitnessCenterDTO> getFitnessCenter(@PathVariable Long fcId) {
+
+
+        FitnessCenter fitnessCenter = this.fitnessCenterService.findOne(fcId);
+
+
+        Boolean isDeleted = false;
+
+        FitnessCenterDTO fitnessCenterDTO = new FitnessCenterDTO(fitnessCenter.getId(), fitnessCenter.getName()
+                , fitnessCenter.getAddress(), fitnessCenter.getPhoneNumber(), fitnessCenter.getEmail(), isDeleted);
+
+        return new ResponseEntity<>(fitnessCenterDTO, HttpStatus.OK);
     }
 }

@@ -119,4 +119,17 @@ public class HallController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping(value = "/{hallId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HallDTO> getHall(@PathVariable Long hallId) {
+
+        Hall hall = this.hallService.findOne(hallId);
+
+        Boolean isDeleted = false;
+
+        HallDTO hallDTO = new HallDTO(hall.getId(), hall.getCapacity(), hall.getMark(), isDeleted);
+
+
+        return new ResponseEntity<>(hallDTO, HttpStatus.OK);
+    }
 }

@@ -15,7 +15,6 @@ $(document).ready(function () {
             row += "<td>" + response.email + "</td>";
             row += "<td>" + response.firstName + "</td>";
             row += "<td>" + response.lastName + "</td>";
-            row += "<td>" + response.password + "</td>";
             row += "<td>" + response.phoneNumber + "</td>";
             row += "<td>" + response.username + "</td>";
             let btn = "<button class='change_data' data-id=" + response.id + ">Change</button>";
