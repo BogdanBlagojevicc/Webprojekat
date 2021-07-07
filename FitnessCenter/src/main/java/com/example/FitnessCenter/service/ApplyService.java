@@ -20,5 +20,7 @@ public interface ApplyService {
 
     Apply done(Apply apply) throws Exception;
 
+    Apply grade(Apply apply) throws Exception;
+
     void save(Apply apply);
 }

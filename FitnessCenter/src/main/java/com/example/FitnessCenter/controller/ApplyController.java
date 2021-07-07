@@ -1,7 +1,10 @@
 package com.example.FitnessCenter.controller;
 
 import com.example.FitnessCenter.model.Apply;
+import com.example.FitnessCenter.model.FitnessCenter;
 import com.example.FitnessCenter.model.User;
+import com.example.FitnessCenter.model.dto.ApplyDTO;
+import com.example.FitnessCenter.model.dto.FitnessCenterDTO;
 import com.example.FitnessCenter.model.dto.Role;
 import com.example.FitnessCenter.service.ApplyService;
 import com.example.FitnessCenter.service.UserService;
@@ -52,8 +55,51 @@ public class ApplyController {
         Apply apply = this.applyService.findOneByTermId(termId);
 
         applyService.done(apply);
-        
+
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/grade/{userId}/{termId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApplyDTO> gradeApply(@PathVariable Long userId, @PathVariable Long termId
+            , @RequestBody ApplyDTO applyDTO) throws Exception {
+
+        User user = this.userService.findOne(userId);
+        if (user == null || user.getRole() != Role.User) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        Apply apply1 = this.applyService.findOneByTermId(termId);
+
+        Apply apply = new Apply(applyDTO.getGrade(), applyDTO.getDone(), applyDTO.getIsDeleted());
+
+        apply.setId(apply1.getId());
+
+        Apply gradedApply = applyService.grade(apply);
+
+        ApplyDTO gradedApplyDTO = new ApplyDTO(gradedApply.getId(), gradedApply.getGrade(), gradedApply.getDone()
+        , gradedApply.getIsDeleted());
+
+        return new ResponseEntity<>(gradedApplyDTO, HttpStatus.OK);
 
     }
+
+    /*@PutMapping(value = "/{adminId}/{fcId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<FitnessCenterDTO> updateFitnessCenter(@PathVariable Long adminId, @PathVariable Long fcId
+            , @RequestBody FitnessCenterDTO fitnessCenterDTO) throws Exception {
+
+        Boolean isDeleted = false;
+        FitnessCenter fitnessCenter = new FitnessCenter(fitnessCenterDTO.getName(), fitnessCenterDTO.getAddress()
+                , fitnessCenterDTO.getPhoneNumber(), fitnessCenterDTO.getEmail(), isDeleted);
+
+        fitnessCenter.setId(fcId);
+
+        FitnessCenter updatedFitnessCenter = fitnessCenterService.update(fitnessCenter);
+
+        FitnessCenterDTO updatedFitnessCenterDTO = new FitnessCenterDTO(updatedFitnessCenter.getId(),
+                updatedFitnessCenter.getName(), updatedFitnessCenter.getAddress(), updatedFitnessCenter.getPhoneNumber(),
+                updatedFitnessCenter.getEmail(), isDeleted);
+
+        return new ResponseEntity<>(updatedFitnessCenterDTO, HttpStatus.OK);
+
+    }*/
 }

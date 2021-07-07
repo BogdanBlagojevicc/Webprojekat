@@ -1,6 +1,7 @@
 package com.example.FitnessCenter.service.impl;
 
 import com.example.FitnessCenter.model.Apply;
+import com.example.FitnessCenter.model.FitnessCenter;
 import com.example.FitnessCenter.model.Term;
 import com.example.FitnessCenter.repository.ApplyRepository;
 import com.example.FitnessCenter.repository.TermRepository;
@@ -92,4 +93,22 @@ public class ApplyServiceImpl implements ApplyService {
         Apply savedApply = this.applyRepository.save(applyToDone);
         return savedApply;
     }
+
+    @Override
+    public Apply grade(Apply apply) throws Exception{
+        Apply applyToGrade = this.applyRepository.getOne(apply.getId());
+
+        if(applyToGrade == null){
+            throw new Exception("Apply doesn't exist!");
+        }
+
+        if(apply.getGrade() != null){
+            applyToGrade.setGrade(apply.getGrade());
+        }
+
+        Apply savedApply = this.applyRepository.save(applyToGrade);
+        return savedApply;
+
+    }
+
 }
