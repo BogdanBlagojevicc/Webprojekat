@@ -54,6 +54,12 @@ public class ApplyServiceImpl implements ApplyService {
     }
 
     @Override
+    public Apply findOneByTermId(Long id){
+        Apply apply = this.applyRepository.findByTermId(id);
+        return apply;
+    }
+
+    @Override
     public Apply delete(Apply apply) throws Exception {
         Apply applyToDelete = this.applyRepository.getOne(apply.getId());
         if(applyToDelete == null){
@@ -67,6 +73,23 @@ public class ApplyServiceImpl implements ApplyService {
         this.termRepository.save(term);
 
         Apply savedApply = this.applyRepository.save(applyToDelete);
+        return savedApply;
+    }
+
+    @Override
+    public Apply done(Apply apply) throws Exception{
+        Apply applyToDone = this.applyRepository.getOne(apply.getId());
+        if(applyToDone == null){
+            throw new Exception("Apply doesn't exist!");
+        }
+
+        applyToDone.setDone(true);
+
+        Term term = this.termRepository.getOne(apply.getTerm().getId());
+        term.setNumber_of_applications(term.getNumber_of_applications()-1);
+        this.termRepository.save(term);
+
+        Apply savedApply = this.applyRepository.save(applyToDone);
         return savedApply;
     }
 }

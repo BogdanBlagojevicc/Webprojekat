@@ -47,7 +47,7 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         Boolean isDeleted = false;
-        Date rightNow = new Date();
+
         for (Term term : termList) {
             Hall mark = term.getHall();
             HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
@@ -58,9 +58,7 @@ public class TermController {
                     , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                     , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-            if (term.getStart().compareTo(rightNow) > 0) {
-                termDTOS.add(termDTO);
-            }
+            termDTOS.add(termDTO);
         }
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
@@ -84,7 +82,7 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         Boolean isDeleted = false;
-        Date rightNow = new Date();
+
         for (Term term : termList) {
             Hall mark = term.getHall();
             HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
@@ -95,9 +93,7 @@ public class TermController {
                     , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                     , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-            if (term.getStart().compareTo(rightNow) > 0) {
-                termDTOS.add(termDTO);
-            }
+            termDTOS.add(termDTO);
         }
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
@@ -115,7 +111,7 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         Boolean isDeleted = false;
-        Date rightNow = new Date();
+
         for (Term term : termList) {
             Hall mark = term.getHall();
             HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
@@ -126,9 +122,7 @@ public class TermController {
                     , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                     , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-            if (term.getStart().compareTo(rightNow) > 0) {
-                termDTOS.add(termDTO);
-            }
+            termDTOS.add(termDTO);
         }
 
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
@@ -147,7 +141,7 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         Boolean isDeleted = false;
-        Date rightNow = new Date();
+
         for (Term term : termList) {
             Hall mark = term.getHall();
             HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
@@ -158,9 +152,7 @@ public class TermController {
                     , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                     , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-            if (term.getStart().compareTo(rightNow) > 0) {
-                termDTOS.add(termDTO);
-            }
+            termDTOS.add(termDTO);
         }
 
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
@@ -179,7 +171,6 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         Boolean isDeleted = false;
-        Date rightNow = new Date();
         for (Term term : termList) {
             Hall mark = term.getHall();
             HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
@@ -190,9 +181,7 @@ public class TermController {
                     , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                     , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-            if (term.getStart().compareTo(rightNow) > 0) {
-                termDTOS.add(termDTO);
-            }
+            termDTOS.add(termDTO);
         }
 
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
@@ -211,7 +200,7 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         Boolean isDeleted = false;
-        Date rightNow = new Date();
+
         for (Term term : termList) {
             Hall mark = term.getHall();
             HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
@@ -222,9 +211,7 @@ public class TermController {
                     , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                     , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-            if (term.getStart().compareTo(rightNow) > 0) {
-                termDTOS.add(termDTO);
-            }
+            termDTOS.add(termDTO);
         }
 
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
@@ -243,7 +230,7 @@ public class TermController {
         List<TermDTO> termDTOS = new ArrayList<>();
 
         Boolean isDeleted = false;
-        Date rightNow = new Date();
+
         for (Term term : termList) {
             Hall mark = term.getHall();
             HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
@@ -254,9 +241,7 @@ public class TermController {
                     , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                     , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-            if (term.getStart().compareTo(rightNow) > 0) {
-                termDTOS.add(termDTO);
-            }
+            termDTOS.add(termDTO);
         }
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
@@ -354,7 +339,7 @@ public class TermController {
         List<Apply> applyList = this.applyService.findAll();
 
         Boolean isDeleted = false;
-        Date rightNow = new Date();
+
         for (Apply apply : applyList) {
             User sportsMan = apply.getSports_man();
             if (sportsMan.getId() == userid) {
@@ -368,7 +353,7 @@ public class TermController {
                         , training.getType().toString(), training.getDuration());
                 TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                         , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-                if (term.getNumber_of_applications() > 0 && apply.getIsDeleted() == Boolean.FALSE && term.getStart().compareTo(rightNow) > 0) {
+                if (term.getNumber_of_applications() > 0 && apply.getIsDeleted() == Boolean.FALSE) {
                     termDTOS.add(termDTO);
                 }
             }
@@ -392,8 +377,6 @@ public class TermController {
 
         Boolean isDeleted = false;
 
-        Date rightNow = new Date();
-
         for (Apply apply : applyList) {
             User sportsMan = apply.getSports_man();
             if (sportsMan.getId() == userId) {
@@ -407,7 +390,7 @@ public class TermController {
                         , training.getType().toString(), training.getDuration());
                 TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                         , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-                if (term.getStart().compareTo(rightNow) < 0) {
+                if (apply.getDone() == true) {
                     termDTOS.add(termDTO);
                 }
             }
@@ -431,8 +414,6 @@ public class TermController {
 
         Boolean isDeleted = false;
 
-        Date rightNow = new Date();
-
         for (Apply apply : applyList) {
             User sportsMan = apply.getSports_man();
             if (sportsMan.getId() == userId) {
@@ -446,7 +427,7 @@ public class TermController {
                         , training.getType().toString(), training.getDuration());
                 TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                         , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-                if (term.getStart().compareTo(rightNow) < 0 && apply.getGrade() == null) {
+                if (apply.getDone() == true && apply.getGrade() == null) {
                     termDTOS.add(termDTO);
                 }
             }

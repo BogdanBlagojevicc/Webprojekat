@@ -18,6 +18,8 @@ $(document).ready(function () {
                 row += "<td>" + term.typeDTO.name + "</td>";
                 let btn = "<button class='decline_apply' data-id=" + term.id + ">Decline</button>";
                 row += "<td>" + btn + "</td>";
+                btn = "<button class='done_apply' data-id=" + term.id + ">Done</button>";
+                row += "<td>" + btn + "</td>";
                 row += "</tr>";
 
 
@@ -35,17 +37,41 @@ $(document).on('click', '.decline_apply', function (event) {
     event.preventDefault();
 
     let userId = localStorage.getItem("id");
-    let applyId = this.dataset.id;
-    console.log("id apply brisanja je", applyId);
+    let termId = this.dataset.id;
+    console.log("id apply brisanja je", termId);
 
     $.ajax({
         type: "PUT",
-        url: "http://localhost:8080/api/applys/delete/" + userId + "/" + applyId,
+        url: "http://localhost:8080/api/applys/delete/" + userId + "/" + termId,
         contentType: "application/json",
         success: function (response) {
             console.log("SUCCESS:\n", response);
 
             alert("Vi ste user moze decline!");
+
+            window.location.href = "allTerms.html";
+        },
+        error: function (response) {
+            alert("Greska!");
+        }
+    });
+});
+
+$(document).on('click', '.done_apply', function (event) {
+    event.preventDefault();
+
+    let userId = localStorage.getItem("id");
+    let termId = this.dataset.id;
+    console.log("id apply done je", termId);
+
+    $.ajax({
+        type: "PUT",
+        url: "http://localhost:8080/api/applys/done/" + userId + "/" + termId,
+        contentType: "application/json",
+        success: function (response) {
+            console.log("SUCCESS:\n", response);
+
+            alert("Vi ste user moze done!");
 
             window.location.href = "allTerms.html";
         },

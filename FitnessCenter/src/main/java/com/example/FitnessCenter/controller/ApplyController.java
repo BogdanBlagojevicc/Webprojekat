@@ -1,5 +1,6 @@
 package com.example.FitnessCenter.controller;
 
+import com.example.FitnessCenter.model.Apply;
 import com.example.FitnessCenter.model.User;
 import com.example.FitnessCenter.model.dto.Role;
 import com.example.FitnessCenter.service.ApplyService;
@@ -24,16 +25,34 @@ public class ApplyController {
         this.userService = userService;
     }
 
-    @PutMapping(value = "/delete/{userId}/{applyId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> deleteFitnessCenter(@PathVariable Long userId, @PathVariable Long applyId) throws Exception {
+    @PutMapping(value = "/delete/{userId}/{termId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteApply(@PathVariable Long userId, @PathVariable Long termId) throws Exception {
 
         User user = this.userService.findOne(userId);
         if (user == null || user.getRole() != Role.User) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        applyService.delete(applyService.findOne(applyId));
+        Apply apply = this.applyService.findOneByTermId(termId);
 
+        applyService.delete(apply);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    @PutMapping(value = "/done/{userId}/{termId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> doneApply(@PathVariable Long userId, @PathVariable Long termId) throws Exception {
+
+        User user = this.userService.findOne(userId);
+        if (user == null || user.getRole() != Role.User) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        Apply apply = this.applyService.findOneByTermId(termId);
+
+        applyService.done(apply);
+        
         return new ResponseEntity<>(HttpStatus.OK);
 
     }

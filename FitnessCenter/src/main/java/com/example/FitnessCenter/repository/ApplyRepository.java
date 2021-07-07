@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface ApplyRepository extends JpaRepository<Apply, Long> {
 
+    Apply findByTermId(Long id);
+
 
 }

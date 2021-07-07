@@ -14,7 +14,11 @@ public interface ApplyService {
 
     Apply findOne(Long id);
 
+    Apply findOneByTermId(Long id);
+
     Apply delete(Apply apply) throws Exception;
+
+    Apply done(Apply apply) throws Exception;
 
     void save(Apply apply);
 }
