@@ -361,4 +361,27 @@ $(document).on("submit", "#user_only3", function (event) {
     });
 });
 
+$(document).on("submit", "#user_only4", function (event) {
+    event.preventDefault();
+
+    let userid = localStorage.getItem("id");
+    console.log(userid);
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/isUser/" + userid,
+        contentType: "application/json",
+        success: function (response) {
+            console.log("SUCCESS user", response);
+
+            alert("Vi ste user moze!");
+            window.location.href = "allDoneAndGrade.html";
+
+        },
+        error: function () {
+            alert("Greška niste user!");
+        }
+    });
+});
+
 
