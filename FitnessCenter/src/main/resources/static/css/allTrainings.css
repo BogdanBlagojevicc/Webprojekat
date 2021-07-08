@@ -44,3 +44,9 @@ tbody{
     background-color: #ddd;
 }
 
+h2{
+    color: #99ffff;
+    text-shadow: 0 0 10px rgba(0,0,0,0.3);
+    letter-spacing:1px;
+}
+

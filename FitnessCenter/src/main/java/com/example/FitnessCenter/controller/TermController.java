@@ -3,9 +3,7 @@ package com.example.FitnessCenter.controller;
 import com.example.FitnessCenter.model.*;
 import com.example.FitnessCenter.model.dto.Role;
 import com.example.FitnessCenter.model.dto.*;
-import com.example.FitnessCenter.service.ApplyService;
-import com.example.FitnessCenter.service.TermService;
-import com.example.FitnessCenter.service.UserService;
+import com.example.FitnessCenter.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,12 +24,18 @@ public class TermController {
     private final TermService termService;
     private final UserService userService;
     private final ApplyService applyService;
+    private final HallService hallService;
+    private final FitnessCenterService fitnessCenterService;
+    private final TrainingService trainingService;
 
     @Autowired
-    public TermController(TermService termService, UserService userService, ApplyService applyService) {
+    public TermController(TermService termService, UserService userService, ApplyService applyService, HallService hallService, FitnessCenterService fitnessCenterService, TrainingService trainingService) {
         this.termService = termService;
         this.userService = userService;
         this.applyService = applyService;
+        this.hallService = hallService;
+        this.fitnessCenterService = fitnessCenterService;
+        this.trainingService = trainingService;
     }
 
     @GetMapping(value = "/price/{price}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -242,6 +246,40 @@ public class TermController {
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                     , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
             termDTOS.add(termDTO);
+        }
+        return new ResponseEntity<>(termDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/trainers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TermDTO>> getTrainersTerms(@PathVariable Long id) {
+
+        User user_trainer_check = userService.findOne(id);
+        if (user_trainer_check == null || user_trainer_check.getRole() != Role.Trainer) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<Term> termList = this.termService.findAll();
+
+        List<TermDTO> termDTOS = new ArrayList<>();
+
+        Boolean isDeleted = false;
+
+        Long idFC = user_trainer_check.getFitnessCenter().getId();  //nalazi se idFc kom trainer pripada
+
+        for (Term term : termList) {
+            Hall mark = term.getHall();
+            HallDTO markDTO = new HallDTO(mark.getId(), mark.getCapacity(), mark.getMark(), isDeleted);
+            User trainer = term.getTrainer();
+            UserDTO trainerDTO = new UserDTO(trainer);
+            Training training = term.getTraining();
+            TrainingDTO typeDTO = new TrainingDTO(training.getId(), training.getName(), training.getDescription()
+                    , training.getType().toString(), training.getDuration());
+            TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
+                    , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
+            if(term.getHall().getFitnessCenter().getId() == idFC){
+                termDTOS.add(termDTO);
+            }
+
         }
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
@@ -472,4 +510,58 @@ public class TermController {
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
 
+    @PutMapping(value = "/trainer/{trainerId}/{termId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TermDTO> updateTermTrainer(@PathVariable Long trainerId, @PathVariable Long termId
+            , @RequestBody TermDTO termDTO) throws Exception {
+
+        User trainer = this.userService.findOne(trainerId);
+        if (trainer == null || trainer.getRole() != Role.Trainer) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Date fromStringToDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
+        fromStringToDate = formatter.parse(termDTO.getStart());
+
+        Term term = new Term(termDTO.getPrice(), fromStringToDate, termDTO.getNumber_of_applications());
+
+        term.setId(termId);
+
+        Term updatedTerm = termService.update(term);
+
+        TermDTO updatedTermDTO = new TermDTO(updatedTerm.getId(), updatedTerm.getPrice(), updatedTerm.getStart().toString()
+                , updatedTerm.getNumber_of_applications());
+
+
+        return new ResponseEntity<>(updatedTermDTO, HttpStatus.OK);
+
+    }
+
+    @PostMapping(value = "/trainer/createTerm/{trainerId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TermDTO> createTrainerTerm(@RequestBody TermDTO termDTO, @PathVariable Long trainerId) throws Exception {
+
+        User trainer = userService.findOne(trainerId);
+        if(trainer == null || trainer.getRole()!=Role.Trainer){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Date fromStringToDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
+        fromStringToDate = formatter.parse(termDTO.getStart());
+
+        long id = 1;
+        Hall hall = hallService.findOne(id);
+        Training training = trainingService.findOne(id);
+        User user_trainer = userService.findOne(id);
+
+        Term term = new Term(termDTO.getPrice(), fromStringToDate, 0, hall
+                , training, user_trainer);
+
+        Term newTerm = termService.create(term);
+
+        TermDTO newTermDTO = new TermDTO(termDTO.getId(), termDTO.getPrice(), termDTO.getStart().toString()
+        , termDTO.getNumber_of_applications());
+
+        return new ResponseEntity<>(newTermDTO, HttpStatus.CREATED);
+    }
 }

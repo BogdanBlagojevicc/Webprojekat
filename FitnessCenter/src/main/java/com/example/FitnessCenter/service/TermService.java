@@ -28,5 +28,9 @@ public interface TermService {
 
     Term applyForTerm(Term term) throws Exception;
 
+    Term update(Term term) throws Exception;
+
+    Term create(Term term) throws Exception;
+
     void save(Term term);
 }

@@ -384,4 +384,48 @@ $(document).on("submit", "#user_only4", function (event) {
     });
 });
 
+$(document).on("submit", "#trainer_only", function (event) {
+    event.preventDefault();
+
+    let trainerid = localStorage.getItem("id");
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/isTrainer/" + trainerid,
+        contentType: "application/json",
+        success: function (response) {
+            console.log("SUCCESS trainer", response);
+
+            alert("Vi ste trainer moze!");
+            window.location.href = "allTrainersTrainings.html";
+
+        },
+        error: function () {
+            alert("Greška niste trainer!");
+        }
+    });
+});
+
+$(document).on("submit", "#trainer_only2", function (event) {
+    event.preventDefault();
+
+    let trainerid = localStorage.getItem("id");
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/isTrainer/" + trainerid,
+        contentType: "application/json",
+        success: function (response) {
+            console.log("SUCCESS trainer", response);
+
+            alert("Vi ste trainer moze!");
+            window.location.href = "createTrainersTraining.html";
+
+        },
+        error: function () {
+            alert("Greška niste trainer!");
+        }
+    });
+});
+
 

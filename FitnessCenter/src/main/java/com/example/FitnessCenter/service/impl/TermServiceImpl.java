@@ -123,4 +123,28 @@ public class TermServiceImpl implements TermService {
         termRepository.save(term);
     }
 
+    @Override
+    public Term update(Term term) throws Exception{
+        Term termToUpdate = this.termRepository.getOne(term.getId());
+        if(termToUpdate == null){
+            throw new Exception("Term doesn't exist");
+        }
+
+        termToUpdate.setStart(term.getStart());
+        termToUpdate.setPrice(term.getPrice());
+
+        Term savedTerm = this.termRepository.save(termToUpdate);
+        return savedTerm;
+    }
+
+    @Override
+    public Term create(Term term) throws Exception{
+        if(term.getId() != null){
+            throw new Exception("id must be null!");
+        }
+
+        Term newTerm = this.termRepository.save(term);
+        return newTerm;
+    }
+
 }

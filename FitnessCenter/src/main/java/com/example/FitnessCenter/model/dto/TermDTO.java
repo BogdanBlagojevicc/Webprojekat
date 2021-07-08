@@ -29,4 +29,10 @@ public class TermDTO {
         this.typeDTO = typeDTO;
     }
 
+    public TermDTO(Long id, Double price, String start, Integer number_of_applications) {
+        this.id = id;
+        this.price = price;
+        this.start = start;
+        this.number_of_applications = number_of_applications;
+    }
 }
