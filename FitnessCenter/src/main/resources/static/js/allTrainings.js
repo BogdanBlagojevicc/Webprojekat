@@ -13,6 +13,10 @@ $(document).ready(function () {
                 row += "<td>" + training.name + "</td>";
                 row += "<td>" + training.type + "</td>";
                 row += "<td>" + training.trainer.firstName + "</td>";
+                let btn = "<button class='create_term' data-id=" + training.id + ">Create term</button>";
+                row += "<td>" + btn + "</td>";
+                btn = "<button class='update_training' data-id=" + training.id + ">Update training</button>";
+                row += "<td>" + btn + "</td>";
                 row += "</tr>";
 
                 $('#training').append(row);
@@ -152,7 +156,7 @@ $(document).on("submit", "#for_everyone", function (event) {
             // localStorage.setItem("id", response);
             // console.log(localStorage.getItem("id"));
 
-            alert("Vi ste user moze!");
+            alert("Vi ste login moze!");
             window.location.href = "allTerms.html";
 
         },
@@ -384,27 +388,27 @@ $(document).on("submit", "#user_only4", function (event) {
     });
 });
 
-$(document).on("submit", "#trainer_only", function (event) {
-    event.preventDefault();
-
-    let trainerid = localStorage.getItem("id");
-
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/api/users/isTrainer/" + trainerid,
-        contentType: "application/json",
-        success: function (response) {
-            console.log("SUCCESS trainer", response);
-
-            alert("Vi ste trainer moze!");
-            window.location.href = "allTrainersTrainings.html";
-
-        },
-        error: function () {
-            alert("Greška niste trainer!");
-        }
-    });
-});
+// $(document).on("submit", "#trainer_only", function (event) {
+//     event.preventDefault();
+//
+//     let trainerid = localStorage.getItem("id");
+//
+//     $.ajax({
+//         type: "GET",
+//         url: "http://localhost:8080/api/users/isTrainer/" + trainerid,
+//         contentType: "application/json",
+//         success: function (response) {
+//             console.log("SUCCESS trainer", response);
+//
+//             alert("Vi ste trainer moze!");
+//             window.location.href = "allTrainersTerm.html";
+//
+//         },
+//         error: function () {
+//             alert("Greška niste trainer!");
+//         }
+//     });
+// });
 
 $(document).on("submit", "#trainer_only2", function (event) {
     event.preventDefault();
@@ -419,11 +423,53 @@ $(document).on("submit", "#trainer_only2", function (event) {
             console.log("SUCCESS trainer", response);
 
             alert("Vi ste trainer moze!");
-            window.location.href = "createTrainersTraining.html";
+            window.location.href = "createTrainerTraining.html";
 
         },
         error: function () {
             alert("Greška niste trainer!");
+        }
+    });
+});
+
+$(document).on('click', '.create_term', function () {
+
+    let trainerId = localStorage.getItem("id");
+    let trainingId = this.dataset.id;
+    localStorage.setItem("create_term_for_training", trainingId);
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/isTrainer/" + trainerId,
+        dataType: "json",
+        success: function (response) {
+
+            alert("Vi ste trainer moze create term!");
+            window.location.href = "createTrainersTerm.html";
+        },
+        error: function (response) {
+            console.log("ERROR:\n", response);
+        }
+    });
+});
+
+$(document).on('click', '.update_training', function () {
+
+    let trainerId = localStorage.getItem("id");
+    let trainingId = this.dataset.id;
+    localStorage.setItem("update_training", trainingId);
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/isTrainer/" + trainerId,
+        dataType: "json",
+        success: function (response) {
+
+            alert("Vi ste trainer moze update training!");
+            window.location.href = "updateTrainingTrainer.html";
+        },
+        error: function (response) {
+            console.log("ERROR:\n", response);
         }
     });
 });

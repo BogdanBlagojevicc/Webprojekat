@@ -47,6 +47,15 @@ public class Term implements Serializable {
         this.number_of_applications = number_of_applications;
     }
 
+    public Term(Double price, Date start, Integer number_of_applications, Hall hall, User trainer) {
+        this.id = id;
+        this.price = price;
+        this.start = start;
+        this.number_of_applications = number_of_applications;
+        this.hall = hall;
+        this.trainer = trainer;
+    }
+
     public Term(Double price, Date start, Integer number_of_applications, Hall hall, Training training, User trainer) {
         this.id = id;
         this.price = price;

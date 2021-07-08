@@ -3,9 +3,12 @@ $(document).on("submit", "#updateTermTrainer", function (event) {
 
     let price = $("#PRICE").val();
     let start = $("#START").val();
+    let mark = $("#HALL").val();
+    let type = $("#TRAINING").val();
 
     let trainerId = localStorage.getItem("id");
-    let termId = localStorage.getItem("trainerUpdateTerm")
+    let termId = localStorage.getItem("updateTerm_Trainer")
+    // let trainingId = localStorage.getItem("update_term_for_training")
 
     let replacedStart = start.replace("T", " ");
     start = replacedStart;
@@ -17,7 +20,7 @@ $(document).on("submit", "#updateTermTrainer", function (event) {
 
     $.ajax({
         type: "PUT",
-        url: "http://localhost:8080/api/terms/trainer/" + trainerId + "/" + termId,
+        url: "http://localhost:8080/api/terms/trainer/" + trainerId + "/" + termId + "/" + mark + "/" + type,
         dataType: "json",
         contentType: "application/json",
         data: JSON.stringify(newTerm),

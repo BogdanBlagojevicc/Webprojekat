@@ -78,3 +78,21 @@ $(document).on('click', '.delete_hall', function (event) {
     });
 });
 
+$(document).on('click', '#back2', function () {
+
+    let adminid = localStorage.getItem("id");
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/isLogin/" + adminid,
+        dataType: "json",
+        success: function (response) {
+            alert("Vi ste login moze back!");
+            window.location.href = "showFitnessCenters.html";
+        },
+        error: function (response) {
+            console.log("ERROR:\n", response);
+        }
+    });
+});
+

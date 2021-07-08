@@ -1,4 +1,4 @@
-$(document).on("submit", "#createTrainingTrainer", function (event) {
+$(document).on("submit", "#updateTrainingTrainer", function (event) {
     event.preventDefault();
 
     let description = $("#DESCRIPTION").val();
@@ -6,8 +6,8 @@ $(document).on("submit", "#createTrainingTrainer", function (event) {
     let name = $("#NAME").val();
     let type = $("#TYPE").val();
 
-
     let trainerId = localStorage.getItem("id");
+    let trainingId = localStorage.getItem("update_training");
 
 
     let newTraining = {
@@ -18,19 +18,19 @@ $(document).on("submit", "#createTrainingTrainer", function (event) {
     }
 
     $.ajax({
-        type: "POST",
-        url: "http://localhost:8080/api/trainings/trainer/createTraining/" + trainerId,
+        type: "PUT",
+        url: "http://localhost:8080/api/trainings/trainer/updateTraining/" + trainerId + "/" + trainingId,
         dataType: "json",
         contentType: "application/json",
         data: JSON.stringify(newTraining),
         success: function (response) {
             console.log(response);
 
-            alert("Training je uspešno create!");
+            alert("Training je uspešno update!");
             window.location.href = "allTrainings.html";
         },
         error: function () {
-            alert("Greška prilikom create training!");
+            alert("Greška prilikom update training!");
         }
     });
 });

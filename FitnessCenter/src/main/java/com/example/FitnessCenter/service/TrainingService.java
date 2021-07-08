@@ -22,4 +22,7 @@ public interface TrainingService {
     List<Training> findAllType(Type type);
 
     List<Training> findAllDescription(String description);
+
+    Training findByTypeAndTrainerId(Type type, Long id);
+
 }

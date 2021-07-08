@@ -2,6 +2,7 @@ package com.example.FitnessCenter.controller;
 
 import com.example.FitnessCenter.model.*;
 import com.example.FitnessCenter.model.dto.Role;
+import com.example.FitnessCenter.model.dto.Type;
 import com.example.FitnessCenter.model.dto.*;
 import com.example.FitnessCenter.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -276,7 +277,7 @@ public class TermController {
                     , training.getType().toString(), training.getDuration());
             TermDTO termDTO = new TermDTO(term.getId(), term.getPrice(), term.getStart().toString()
                     , term.getNumber_of_applications(), markDTO, trainerDTO, typeDTO);
-            if(term.getHall().getFitnessCenter().getId() == idFC){
+            if (term.getHall().getFitnessCenter().getId() == idFC) {
                 termDTOS.add(termDTO);
             }
 
@@ -333,7 +334,7 @@ public class TermController {
         }
 
         for (Apply apply : applyList) {
-            User sportsMan = apply.getSports_man();
+            User sportsMan = apply.getSportists();
             Term term1 = apply.getTerm();
             if (sportsMan.getId() == userId && term1.getId() == termId) {
                 if (apply.getIsDeleted() == Boolean.FALSE) {
@@ -349,7 +350,7 @@ public class TermController {
 
         Apply apply = new Apply();
         applyService.create(apply);
-        apply.setSports_man(user);
+        apply.setSportists(user);
         apply.setIsDeleted(Boolean.FALSE);
         apply.setDone(Boolean.FALSE);
         applyService.save(apply);
@@ -379,7 +380,7 @@ public class TermController {
         Boolean isDeleted = false;
 
         for (Apply apply : applyList) {
-            User sportsMan = apply.getSports_man();
+            User sportsMan = apply.getSportists();
             if (sportsMan.getId() == userid) {
                 Term term = apply.getTerm();
                 Hall mark = term.getHall();
@@ -416,7 +417,7 @@ public class TermController {
         Boolean isDeleted = false;
 
         for (Apply apply : applyList) {
-            User sportsMan = apply.getSports_man();
+            User sportsMan = apply.getSportists();
             if (sportsMan.getId() == userId) {
                 Term term = apply.getTerm();
                 Hall mark = term.getHall();
@@ -453,7 +454,7 @@ public class TermController {
         Boolean isDeleted = false;
 
         for (Apply apply : applyList) {
-            User sportsMan = apply.getSports_man();
+            User sportsMan = apply.getSportists();
             if (sportsMan.getId() == userId) {
                 Term term = apply.getTerm();
                 Hall mark = term.getHall();
@@ -490,7 +491,7 @@ public class TermController {
         Boolean isDeleted = false;
 
         for (Apply apply : applyList) {
-            User sportsMan = apply.getSports_man();
+            User sportsMan = apply.getSportists();
             if (sportsMan.getId() == userId) {
                 Term term = apply.getTerm();
                 Hall mark = term.getHall();
@@ -510,9 +511,9 @@ public class TermController {
         return new ResponseEntity<>(termDTOS, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/trainer/{trainerId}/{termId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/trainer/{trainerId}/{termId}/{mark}/{type}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TermDTO> updateTermTrainer(@PathVariable Long trainerId, @PathVariable Long termId
-            , @RequestBody TermDTO termDTO) throws Exception {
+            , @RequestBody TermDTO termDTO, @PathVariable String mark, @PathVariable String type) throws Exception {
 
         User trainer = this.userService.findOne(trainerId);
         if (trainer == null || trainer.getRole() != Role.Trainer) {
@@ -523,11 +524,24 @@ public class TermController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
         fromStringToDate = formatter.parse(termDTO.getStart());
 
-        Term term = new Term(termDTO.getPrice(), fromStringToDate, termDTO.getNumber_of_applications());
+        Hall hall = hallService.findOneByMark(mark);
+        Type type1 = Type.valueOf(type);
+        Training training = trainingService.findByTypeAndTrainerId(type1, trainer.getId());
+
+//        Training training = trainingService.findOne(trainingId);
+
+        if (hall == null || training == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Term term = new Term(termDTO.getPrice(), fromStringToDate, termDTO.getNumber_of_applications()
+                , hall, training, trainer);
 
         term.setId(termId);
 
         Term updatedTerm = termService.update(term);
+        hallService.update(hall);
+        trainingService.update(training);
 
         TermDTO updatedTermDTO = new TermDTO(updatedTerm.getId(), updatedTerm.getPrice(), updatedTerm.getStart().toString()
                 , updatedTerm.getNumber_of_applications());
@@ -537,11 +551,44 @@ public class TermController {
 
     }
 
+    @PostMapping(value = "/trainer/createTerm/{trainerId}/{mark}/{trainingId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TermDTO> createTrainerTerm(@RequestBody TermDTO termDTO, @PathVariable Long trainerId
+            , @PathVariable String mark, @PathVariable Long trainingId) throws Exception {
+
+        User trainer = userService.findOne(trainerId);
+        if (trainer == null || trainer.getRole() != Role.Trainer) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Date fromStringToDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
+        fromStringToDate = formatter.parse(termDTO.getStart());
+
+        Hall hall = hallService.findOneByMark(mark);
+//        Type type1 = Type.valueOf(type);
+//        Training training = trainingService.findByTypeAndTrainerId(type1, trainer.getId());
+        Training training = trainingService.findOne(trainingId);
+
+        Term term = new Term(termDTO.getPrice(), fromStringToDate, 0, hall, training, trainer);
+
+        Term newTerm = this.termService.create(term);
+
+        /*TermDTO newTermDTO = new TermDTO(termDTO.getId(), termDTO.getPrice(), termDTO.getStart().toString()
+                , termDTO.getNumber_of_applications());*/
+
+        TermDTO newTermDTO = new TermDTO(newTerm.getId(), newTerm.getPrice(), newTerm.getStart().toString()
+        , newTerm.getNumber_of_applications());
+
+        return new ResponseEntity<>(newTermDTO, HttpStatus.CREATED);
+    }
+}
+
+/*      RADI
     @PostMapping(value = "/trainer/createTerm/{trainerId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TermDTO> createTrainerTerm(@RequestBody TermDTO termDTO, @PathVariable Long trainerId) throws Exception {
 
         User trainer = userService.findOne(trainerId);
-        if(trainer == null || trainer.getRole()!=Role.Trainer){
+        if (trainer == null || trainer.getRole() != Role.Trainer) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -554,14 +601,42 @@ public class TermController {
         Training training = trainingService.findOne(id);
         User user_trainer = userService.findOne(id);
 
-        Term term = new Term(termDTO.getPrice(), fromStringToDate, 0, hall
-                , training, user_trainer);
+        Term term = new Term(termDTO.getPrice(), fromStringToDate, 0, hall, training, user_trainer);
 
         Term newTerm = termService.create(term);
 
         TermDTO newTermDTO = new TermDTO(termDTO.getId(), termDTO.getPrice(), termDTO.getStart().toString()
-        , termDTO.getNumber_of_applications());
+                , termDTO.getNumber_of_applications());
 
         return new ResponseEntity<>(newTermDTO, HttpStatus.CREATED);
     }
-}
+
+ */
+/*      GRESKA
+    @PostMapping(value = "/trainer/createTerm", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TermDTO> createTrainerTerm(@RequestParam Long id, @RequestParam String mark
+            , @RequestParam String name, @RequestParam Double price, @RequestParam String start ) throws Exception {
+
+        User trainer = userService.findOne(id);
+        if(trainer == null || trainer.getRole()!=Role.Trainer){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Date fromStringToDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
+        fromStringToDate = formatter.parse(start);
+
+        long _id = 1;
+        long fcId = trainer.getFitnessCenter().getId();
+        Hall hall = hallService.findOneByMark(name);
+        hall.getFitnessCenter().setId(fcId);
+
+        Term term = new Term(price, fromStringToDate, 0, hall, trainer);
+
+        Term newTerm = termService.create(term);
+
+        TermDTO newTermDTO = new TermDTO(id, price, start, 0);
+
+        return new ResponseEntity<>(newTermDTO, HttpStatus.CREATED);
+    }
+}*/

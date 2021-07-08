@@ -46,6 +46,14 @@ public class Training implements Serializable {
         this.duration = duration;
     }
 
+    public Training(String name, String description, com.example.FitnessCenter.model.dto.Type type, Double duration, User trainer) {
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.duration = duration;
+        this.trainer = trainer;
+    }
+
     @Override
     public String toString() {
         return "Training{" +

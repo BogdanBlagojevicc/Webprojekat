@@ -15,4 +15,6 @@ public interface HallService {
     Hall findOne(Long id);
 
     Hall delete(Hall hall) throws Exception;
+
+    Hall findOneByMark(String mark);
 }

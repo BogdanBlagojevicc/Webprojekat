@@ -59,6 +59,12 @@ public class HallServiceImpl implements HallService {
     }
 
     @Override
+    public Hall findOneByMark(String mark){
+        Hall hall1  = this.hallRepository.findByMark(mark);
+        return hall1;
+    }
+
+    @Override
     public Hall delete(Hall hall) throws Exception{
         Hall hallToDelete = this.hallRepository.getOne(hall.getId());
         if(hallToDelete == null){

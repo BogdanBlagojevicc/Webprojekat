@@ -1,11 +1,14 @@
 package com.example.FitnessCenter.service.impl;
 
+import com.example.FitnessCenter.model.Hall;
 import com.example.FitnessCenter.model.Term;
+import com.example.FitnessCenter.model.Training;
 import com.example.FitnessCenter.model.dto.Type;
+import com.example.FitnessCenter.repository.HallRepository;
 import com.example.FitnessCenter.repository.TermRepository;
+import com.example.FitnessCenter.repository.TrainingRepository;
 import com.example.FitnessCenter.service.TermService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -18,10 +21,14 @@ import java.util.Locale;
 public class TermServiceImpl implements TermService {
 
     private final TermRepository termRepository;
+    private final TrainingRepository trainingRepository;
+    private final HallRepository hallRepository;
 
     @Autowired
-    public TermServiceImpl(TermRepository termRepository) {
+    public TermServiceImpl(TermRepository termRepository, TrainingRepository trainingRepository, HallRepository hallRepository) {
         this.termRepository = termRepository;
+        this.trainingRepository = trainingRepository;
+        this.hallRepository = hallRepository;
     }
 
     @Override
@@ -126,12 +133,16 @@ public class TermServiceImpl implements TermService {
     @Override
     public Term update(Term term) throws Exception{
         Term termToUpdate = this.termRepository.getOne(term.getId());
+        Training training = term.getTraining();
+        Hall hall = term.getHall();
         if(termToUpdate == null){
             throw new Exception("Term doesn't exist");
         }
 
         termToUpdate.setStart(term.getStart());
         termToUpdate.setPrice(term.getPrice());
+        termToUpdate.setTraining(term.getTraining());
+        termToUpdate.setHall(term.getHall());
 
         Term savedTerm = this.termRepository.save(termToUpdate);
         return savedTerm;
@@ -143,8 +154,8 @@ public class TermServiceImpl implements TermService {
             throw new Exception("id must be null!");
         }
 
-        Term newTerm = this.termRepository.save(term);
-        return newTerm;
+        Term save = this.termRepository.save(term);
+        return save;
     }
 
 }

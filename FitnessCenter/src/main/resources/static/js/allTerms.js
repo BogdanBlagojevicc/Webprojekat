@@ -18,6 +18,8 @@ $(document).ready(function () {
                 row += "<td>" + term.typeDTO.description + "</td>";
                 let btn = "<button class='see_more_term' data-id=" + term.id + ">See more</button>";
                 row += "<td>" + btn + "</td>";
+                btn = "<button class='update_term' data-id=" + term.id + ">Update term</button>";
+                row += "<td>" + btn + "</td>";
                 row += "</tr>";
 
 
@@ -26,6 +28,29 @@ $(document).ready(function () {
 
         },
         error: function (response) {
+            console.log("ERROR:\n", response);
+        }
+    });
+});
+
+$(document).on('click', '.update_term', function () {
+
+    let trainerId = localStorage.getItem("id");
+    let termId = this.dataset.id;
+    localStorage.setItem("updateTerm_Trainer", termId);
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/isTrainer/" + trainerId,
+        dataType: "json",
+        success: function (response) {
+            console.log("SUCCESS:\n", response);
+
+            alert("Vi ste trainer moze update!");
+            window.location.href = "updateTermTrainer.html";
+        },
+        error: function (response) {
+            alert("Vi niste trainer ne moze update!");
             console.log("ERROR:\n", response);
         }
     });
@@ -49,6 +74,24 @@ $(document).on('click', '.see_more_term', function () {
         },
         error: function (response) {
             alert("Vi niste user ne moze see more!");
+            console.log("ERROR:\n", response);
+        }
+    });
+});
+
+$(document).on('click', '#back', function () {
+
+    let userid = localStorage.getItem("id");
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/isLogin/" + userid,
+        dataType: "json",
+        success: function (response) {
+            alert("Vi ste login moze back!");
+            window.location.href = "AllTrainings.html";
+        },
+        error: function (response) {
             console.log("ERROR:\n", response);
         }
     });
@@ -323,6 +366,8 @@ $(document).on("submit", "#find", function (event) {
                 row += "<td>" + term.typeDTO.name + "</td>";
                 row += "<td>" + term.typeDTO.description + "</td>";
                 let btn = "<button class='see_more_term' data-id=" + term.id + ">See more</button>";
+                row += "<td>" + btn + "</td>";
+                btn = "<button class='update_term' data-id=" + term.id + ">Update term</button>";
                 row += "<td>" + btn + "</td>";
                 row += "</tr>";
 

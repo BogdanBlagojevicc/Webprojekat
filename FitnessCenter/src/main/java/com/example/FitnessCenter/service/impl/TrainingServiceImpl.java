@@ -26,6 +26,12 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
+    public Training findByTypeAndTrainerId(Type type, Long id) {
+        Training training = this.trainingRepository.findByTypeAndTrainerId(type, id);
+        return training;
+    }
+
+    @Override
     public List<Training> findAll() {
         List<Training> trainings = this.trainingRepository.findAll();
         return trainings;
@@ -42,7 +48,9 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public void delete(Long id) { this.trainingRepository.deleteById(id); }
+    public void delete(Long id) {
+        this.trainingRepository.deleteById(id);
+    }
 
 
     @Override
@@ -63,9 +71,19 @@ public class TrainingServiceImpl implements TrainingService {
         return trainings;
     }
 
-    //ostalo
     @Override
-    public Training update(Training user) throws Exception {
-        return null;
+    public Training update(Training training) throws Exception {
+        Training trainingToUpdate = this.trainingRepository.getOne(training.getId());
+        if (trainingToUpdate == null) {
+            throw new Exception("Training doesn't exist!");
+        }
+
+        trainingToUpdate.setDescription(training.getDescription());
+        trainingToUpdate.setDuration(training.getDuration());
+        trainingToUpdate.setType(training.getType());
+        trainingToUpdate.setName(training.getName());
+
+        Training savedTraining = this.trainingRepository.save(trainingToUpdate);
+        return savedTraining;
     }
 }

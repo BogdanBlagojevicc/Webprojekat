@@ -36,7 +36,7 @@ public class ApplyController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        Apply apply = this.applyService.findOneByTermId(termId);
+        Apply apply = this.applyService.findOneByTermIdAndSportistsId(termId, userId);
 
         applyService.delete(apply);
 
@@ -52,7 +52,7 @@ public class ApplyController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        Apply apply = this.applyService.findOneByTermId(termId);
+        Apply apply = this.applyService.findOneByTermIdAndSportistsId(termId, userId);
 
         applyService.done(apply);
 
@@ -68,38 +68,20 @@ public class ApplyController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        Apply apply1 = this.applyService.findOneByTermId(termId);
+        Apply apply1 = this.applyService.findOneByTermIdAndSportistsId(termId, userId);
 
         Apply apply = new Apply(applyDTO.getGrade(), applyDTO.getDone(), applyDTO.getIsDeleted());
 
         apply.setId(apply1.getId());
 
-        Apply gradedApply = applyService.grade(apply);
+        Apply gradedApply = applyService.grade(apply, user);
+
+//        Apply gradedApply = applyService.grade(apply);
 
         ApplyDTO gradedApplyDTO = new ApplyDTO(gradedApply.getId(), gradedApply.getGrade(), gradedApply.getDone()
-        , gradedApply.getIsDeleted());
+                , gradedApply.getIsDeleted());
 
         return new ResponseEntity<>(gradedApplyDTO, HttpStatus.OK);
 
     }
-
-    /*@PutMapping(value = "/{adminId}/{fcId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<FitnessCenterDTO> updateFitnessCenter(@PathVariable Long adminId, @PathVariable Long fcId
-            , @RequestBody FitnessCenterDTO fitnessCenterDTO) throws Exception {
-
-        Boolean isDeleted = false;
-        FitnessCenter fitnessCenter = new FitnessCenter(fitnessCenterDTO.getName(), fitnessCenterDTO.getAddress()
-                , fitnessCenterDTO.getPhoneNumber(), fitnessCenterDTO.getEmail(), isDeleted);
-
-        fitnessCenter.setId(fcId);
-
-        FitnessCenter updatedFitnessCenter = fitnessCenterService.update(fitnessCenter);
-
-        FitnessCenterDTO updatedFitnessCenterDTO = new FitnessCenterDTO(updatedFitnessCenter.getId(),
-                updatedFitnessCenter.getName(), updatedFitnessCenter.getAddress(), updatedFitnessCenter.getPhoneNumber(),
-                updatedFitnessCenter.getEmail(), isDeleted);
-
-        return new ResponseEntity<>(updatedFitnessCenterDTO, HttpStatus.OK);
-
-    }*/
 }

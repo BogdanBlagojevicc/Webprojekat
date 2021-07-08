@@ -53,7 +53,7 @@ public class User implements Serializable {
     @Column
     private Boolean isDeleted;
 
-    @OneToMany(mappedBy = "sports_man", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sportists", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Apply> applications;
 
     //za trenera koje treninge drzi

@@ -7,6 +7,7 @@
     <title>Update term</title>
     <link rel="stylesheet" href="css/addFitnessCenter.css">
     <script src="js/jquery.min.js"></script>
+    <script src="js/showFormUpdateTermTrainer.js"></script>
     <script src="js/updateTermTrainer.js"></script>
 </head>
 <body>
@@ -15,10 +16,16 @@
     <form method="post" id="updateTermTrainer">
 
         <label for="PRICE"></label>
-        <input id="PRICE" type="number" name="u" placeholder="PRICE" required="required"/>
+        <input id="PRICE" type="number" name="u" required="required"/>
 
         <label for="START"></label>
-        <input id="START" type="datetime-local" name="u" placeholder="START" required="required"/>
+        <input id="START" type="datetime-local" name="u" required="required"/>
+
+        <label for="HALL"></label>
+        <input id="HALL" type="text" name="u"/>
+
+        <label for="TRAINING"></label>
+        <input id="TRAINING" type="text" name="u"/>
 
         <button type="submit" value="Add">Update</button>
     </form>

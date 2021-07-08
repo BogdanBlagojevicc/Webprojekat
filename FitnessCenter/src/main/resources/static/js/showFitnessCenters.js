@@ -125,3 +125,21 @@ $(document).on('click', '.add_hall', function () {
     });
 });
 
+$(document).on('click', '#back3', function () {
+
+    let adminid = localStorage.getItem("id");
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/users/isLogin/" + adminid,
+        dataType: "json",
+        success: function (response) {
+            alert("Vi ste login moze back!");
+            window.location.href = "AllTrainings.html";
+        },
+        error: function (response) {
+            console.log("ERROR:\n", response);
+        }
+    });
+});
+

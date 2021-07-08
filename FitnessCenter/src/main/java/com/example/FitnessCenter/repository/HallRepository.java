@@ -10,4 +10,6 @@ import java.util.List;
 public interface HallRepository extends JpaRepository<Hall, Long> {
 
     List<Hall> findAllByFitnessCenterId(Long id);
+
+    Hall findByMark(String mark);
 }

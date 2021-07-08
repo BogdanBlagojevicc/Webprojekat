@@ -24,7 +24,7 @@ public class Apply implements Serializable {
     private Boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private User sports_man;
+    private User sportists;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Term term;
@@ -44,7 +44,7 @@ public class Apply implements Serializable {
                 "id=" + id +
                 ", grade=" + grade +
                 ", done=" + done +
-                ", sports_man=" + sports_man +
+                ", spostists=" + sportists +
                 ", term=" + term +
                 ", isDeleted=" + isDeleted +
                 '}';

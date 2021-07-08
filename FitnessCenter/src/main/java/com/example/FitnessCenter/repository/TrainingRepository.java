@@ -16,5 +16,7 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
 
     List<Training> findByDescriptionContainingIgnoreCase(String description);
 
+    Training findByTypeAndTrainerId(Type type, Long id);
+
 
 }

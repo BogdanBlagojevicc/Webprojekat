@@ -1,11 +1,8 @@
 package com.example.FitnessCenter.controller;
 
-import com.example.FitnessCenter.model.FitnessCenter;
-import com.example.FitnessCenter.model.User;
-import com.example.FitnessCenter.model.dto.Role;
-import com.example.FitnessCenter.model.dto.UserDTO;
-import com.example.FitnessCenter.service.FitnessCenterService;
-import com.example.FitnessCenter.service.UserService;
+import com.example.FitnessCenter.model.*;
+import com.example.FitnessCenter.model.dto.*;
+import com.example.FitnessCenter.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,11 +22,17 @@ public class UserController {
 
     private final UserService userService;
     private final FitnessCenterService fitnessCenterService;
+    private final TermService termService;
+    private final TrainingService trainingService;
+    private final HallService hallService;
 
     @Autowired
-    public UserController(UserService userService, FitnessCenterService fitnessCenterService) {
+    public UserController(UserService userService, FitnessCenterService fitnessCenterService, TermService termService, TrainingService trainingService, HallService hallService) {
         this.userService = userService;
         this.fitnessCenterService = fitnessCenterService;
+        this.termService = termService;
+        this.trainingService = trainingService;
+        this.hallService = hallService;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -200,6 +203,31 @@ public class UserController {
 
     }
 
+    @GetMapping(value = "/isLogin/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Long> isLogin(@PathVariable Long id) {
+
+        User user = this.userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPhoneNumber(user.getPhoneNumber());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setBirth(user.getBirth().toString());
+        userDTO.setRole(user.getRole().toString());
+        userDTO.setActive(user.getActive());
+        userDTO.setAverageGrade(user.getAverageGrade());
+
+        return new ResponseEntity<>(userDTO.getId(), HttpStatus.OK);
+
+    }
+
     @GetMapping(value = "/isUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Long> isUser(@PathVariable Long id) {
 
@@ -207,6 +235,32 @@ public class UserController {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else if (!user.getRole().equals(Role.User)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPhoneNumber(user.getPhoneNumber());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setBirth(user.getBirth().toString());
+        userDTO.setRole(user.getRole().toString());
+        userDTO.setActive(user.getActive());
+        userDTO.setAverageGrade(user.getAverageGrade());
+
+        return new ResponseEntity<>(userDTO.getId(), HttpStatus.OK);
+
+    }
+    @GetMapping(value = "/isAdmin/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Long> isAdmin(@PathVariable Long id) {
+
+        User user = this.userService.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else if (!user.getRole().equals(Role.Admin)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -330,6 +384,85 @@ public class UserController {
         userDTO.setIsDeleted(user.getIsDeleted());
 
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
+
+    }
+
+    @GetMapping(value = "/TrainingTrainerForm/{trainerId}/{trainingId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TrainingDTO> getTrainingTrainer(@PathVariable Long trainerId, @PathVariable Long trainingId) {
+
+        User user = this.userService.findOne(trainerId);
+        if (user == null || !user.getRole().equals(Role.Trainer)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Training training = trainingService.findOne(trainingId);
+
+        TrainingDTO trainingDTO = new TrainingDTO();
+        trainingDTO.setId(training.getId());
+        trainingDTO.setName(training.getName());
+        trainingDTO.setDuration(training.getDuration());
+        trainingDTO.setDescription(training.getDescription());
+        trainingDTO.setType(training.getType().toString());
+
+        return new ResponseEntity<>(trainingDTO, HttpStatus.OK);
+
+    }
+
+    @GetMapping(value = "/TermTrainerForm/{trainerId}/{termId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TermDTO> getTermTrainer(@PathVariable Long trainerId, @PathVariable Long termId) {
+
+        User user = this.userService.findOne(trainerId);
+        if (user == null || !user.getRole().equals(Role.Trainer)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Term term = termService.findOne(termId);
+
+        TermDTO termDTO = new TermDTO();
+        termDTO.setId(term.getId());
+        termDTO.setPrice(term.getPrice());
+        termDTO.setNumber_of_applications(term.getNumber_of_applications());
+        termDTO.setStart(term.getStart().toString());;
+
+        return new ResponseEntity<>(termDTO, HttpStatus.OK);
+
+    }
+
+    @GetMapping(value = "/TermTrainerForm2/{trainerId}/{termId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TrainingDTO> getTermTrainer2(@PathVariable Long trainerId, @PathVariable Long termId) {
+
+        User user = this.userService.findOne(trainerId);
+        if (user == null || !user.getRole().equals(Role.Trainer)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Term term = termService.findOne(termId);
+        Training training = trainingService.findOne(term.getTraining().getId());
+
+        TrainingDTO trainingDTO = new TrainingDTO();
+        trainingDTO.setId(training.getId());
+        trainingDTO.setType(training.getType().toString());
+
+        return new ResponseEntity<>(trainingDTO, HttpStatus.OK);
+
+    }
+
+    @GetMapping(value = "/TermTrainerForm3/{trainerId}/{termId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HallDTO> getTermTrainer3(@PathVariable Long trainerId, @PathVariable Long termId) {
+
+        User user = this.userService.findOne(trainerId);
+        if (user == null || !user.getRole().equals(Role.Trainer)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Term term = termService.findOne(termId);
+        Hall hall = hallService.findOne(term.getHall().getId());
+
+        HallDTO hallDTO = new HallDTO();
+        hallDTO.setId(hall.getId());
+        hallDTO.setMark(hall.getMark());
+
+        return new ResponseEntity<>(hallDTO, HttpStatus.OK);
 
     }
 
